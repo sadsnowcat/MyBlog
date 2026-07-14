@@ -1,0 +1,84 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import BlogTopNav from '../components/blog/BlogTopNav.astro';
+import FriendLinkCard from '../components/mdx/FriendLinkCard.astro';
+import { getSiteConfig } from '../data/site';
+import { getUiText } from '../utils/ui-text';
+import { linkGroups } from '../data/links';
+
+const siteConfig = await getSiteConfig();
+const { site, theme } = siteConfig;
+const palette = theme.palette;
+const ui = getUiText(siteConfig);
+
+const isZh = ui.locale.startsWith('zh');
+const pageTitle = isZh ? '链接 Links' : 'Links';
+const pageKicker = isZh ? '友链与收藏' : 'Links & bookmarks';
+const pageNote = isZh
+  ? '朋友们的站点，以及我常用、常逛的地方。'
+  : 'Friends’ sites and places I visit often.';
+---
+
+<!doctype html>
+<html lang={ui.locale} data-palette={palette}>
+  <head>
+    <BaseHead title={`${pageTitle} | ${site.title}`} description={pageNote} />
+    <style>
+      main {
+        width: min(100%, var(--layout-shell-width));
+        max-width: none;
+        padding: 118px var(--layout-page-gutter) var(--layout-page-bottom);
+      }
+
+      .link-group {
+        margin-top: 32px;
+      }
+
+      .link-group-title {
+        margin: 0 0 4px;
+        font-family: var(--font-page-heading);
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--paper-ink);
+      }
+
+      .link-group-desc {
+        margin: 0;
+        color: var(--paper-ink-soft);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding-top: 88px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <BlogTopNav />
+    <main data-pagefind-body>
+      <header class="archive-hero archive-header-shared page-header-spacing">
+        <div class="archive-header-main">
+          <p class="archive-kicker">{pageKicker}</p>
+          <h1 class="archive-title">{pageTitle}</h1>
+        </div>
+        <div class="archive-copy">
+          <p class="archive-note">{pageNote}</p>
+        </div>
+      </header>
+
+      {
+        linkGroups.map((group) => (
+          <section class="link-group">
+            <h2 class="link-group-title">{group.title}</h2>
+            {group.description && <p class="link-group-desc">{group.description}</p>}
+            <FriendLinkCard items={group.items} />
+          </section>
+        ))
+      }
+    </main>
+    <Footer />
+  </body>
+</html>

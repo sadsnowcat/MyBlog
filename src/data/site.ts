@@ -1,0 +1,33 @@
+import { getEntry } from 'astro:content';
+
+export async function getSiteConfig() {
+  const entry = await getEntry('siteConfig', 'config');
+
+  if (!entry) {
+    throw new Error('Missing site config entry in src/config/site.toml');
+  }
+
+  return entry.data;
+}
+
+export async function getThemePalette() {
+  const { theme } = await getSiteConfig();
+
+  return theme.palette;
+}
+
+export type SiteConfig = Awaited<ReturnType<typeof getSiteConfig>>;
+export type ThemePalette = SiteConfig['theme']['palette'];
+export type SiteProfile = SiteConfig['profile'];
+export type SiteTheme = SiteConfig['theme'];
+export type SiteLink = SiteConfig['topNav']['links'][number];
+export type SiteSearch = SiteConfig['search'];
+export type SiteMath = SiteConfig['math'];
+export type SiteFonts = SiteConfig['fonts'];
+export type SitePages = SiteConfig['pages'];
+export type HomeNavigationItem = SiteConfig['home']['navigation'][number];
+export type HomeLinkItem = SiteConfig['home']['links'][number];
+export type HomeDoingItem = SiteConfig['home']['doing'][number];
+export type HomeIntro = SiteConfig['home']['intro'];
+export type HomeQuote = SiteConfig['home']['quote'];
+export type HomeLatest = SiteConfig['home']['latest'];

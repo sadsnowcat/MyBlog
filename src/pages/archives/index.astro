@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import BlogTopNav from '../../components/blog/BlogTopNav.astro';
+import ArchiveTimeline from '../../components/blog/ArchiveTimeline.astro';
+import GroupNav from '../../components/blog/GroupNav.astro';
+import { getSiteConfig } from '../../data/site';
+import { sortBlogPostsForArchive } from '../../utils/content-dates';
+import { getHtmlLang } from '../../utils/ui-text';
+
+const siteConfig = await getSiteConfig();
+const { site, theme, pages } = siteConfig;
+const palette = theme.palette;
+const htmlLang = getHtmlLang(siteConfig);
+const pageMeta = pages.blog;
+const posts = sortBlogPostsForArchive(await getCollection('blog', ({ data }) => !data.draft));
+---
+
+<!doctype html>
+<html lang={htmlLang} data-palette={palette}>
+  <head>
+    <BaseHead title={`${pageMeta.title} | ${site.title}`} description={pageMeta.subtitle} />
+    <style>
+      main {
+        width: min(100%, var(--layout-shell-width));
+        max-width: none;
+        padding: 118px var(--layout-page-gutter) var(--layout-page-bottom);
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding-top: 88px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <BlogTopNav />
+    <main data-pagefind-body>
+      <ArchiveTimeline
+        posts={posts}
+        headerKicker={pageMeta.kicker}
+        headerTitle={pageMeta.title}
+        headerSubtitle={pageMeta.subtitle}
+        headerNote={pageMeta.note}
+      >
+        <GroupNav slot="after-header" />
+      </ArchiveTimeline>
+    </main>
+    <Footer />
+  </body>
+</html>

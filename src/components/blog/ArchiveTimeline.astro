@@ -1,0 +1,240 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '../FormattedDate.astro';
+import Icon from '../Icon.astro';
+import { getSiteConfig } from '../../data/site';
+import { slugifyGroupName } from '../../utils/content-groups';
+import { isStickyEntry } from '../../utils/content-dates';
+import { getUiText } from '../../utils/ui-text';
+
+type BlogPost = CollectionEntry<'blog'>;
+
+interface Props {
+  posts: BlogPost[];
+  headerKicker?: string;
+  headerTitle?: string;
+  headerSubtitle?: string;
+  headerNote?: string;
+}
+
+const { posts, headerKicker, headerTitle, headerSubtitle, headerNote } = Astro.props;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const ui = getUiText(await getSiteConfig());
+
+function withBase(href: string) {
+  if (href === '/') return `${basePath}/` || '/';
+  return `${basePath}${href.startsWith('/') ? href : `/${href}`}`;
+}
+
+// 按年份分组（posts 已按置顶+日期降序排好）
+const groups: { year: number; posts: BlogPost[] }[] = [];
+for (const post of posts) {
+  const year = new Date(post.data.date).getFullYear();
+  const last = groups[groups.length - 1];
+  if (last && last.year === year) {
+    last.posts.push(post);
+  } else {
+    groups.push({ year, posts: [post] });
+  }
+}
+---
+
+<header class="archive-hero archive-header-shared page-header-spacing">
+  <div class="archive-header-main">
+    {headerKicker && <p class="archive-kicker">{headerKicker}</p>}
+    <h1 class="archive-title">{headerTitle}</h1>
+  </div>
+  <div class="archive-copy">
+    {headerSubtitle && <p class="archive-subtitle">{headerSubtitle}</p>}
+    {headerNote && <p class="archive-note">{headerNote}</p>}
+  </div>
+</header>
+<slot name="after-header" />
+
+<section class="timeline" aria-label={headerTitle}>
+  {
+    groups.map((group) => (
+      <div class="timeline-year-group">
+        <div class="timeline-year">
+          <span class="timeline-year-label">{group.year}</span>
+          <span class="timeline-year-count">{ui.groups.articleCount(group.posts.length)}</span>
+        </div>
+        <ol class="timeline-list">
+          {group.posts.map((post) => (
+            <li class="timeline-item">
+              <span class="timeline-dot" aria-hidden="true" />
+              <a class="timeline-entry" href={withBase(`/archives/${post.id}/`)}>
+                <time class="timeline-date" datetime={new Date(post.data.date).toISOString()}>
+                  <FormattedDate date={post.data.date} />
+                </time>
+                <span class="timeline-title">
+                  {post.data.title}
+                  {isStickyEntry(post) && (
+                    <span class="timeline-pin">
+                      <Icon name="pin" size={14} />
+                      {ui.article.pinned}
+                    </span>
+                  )}
+                </span>
+              </a>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <span class="timeline-tags">
+                  {post.data.tags.map((tag) => (
+                    <a class="timeline-tag" href={withBase(`/tags/${slugifyGroupName(tag)}/`)}>
+                      #{tag}
+                    </a>
+                  ))}
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    margin-top: 8px;
+  }
+
+  .timeline-year-group {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+  }
+
+  .timeline-year {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .timeline-year-label {
+    font-family: var(--font-ui-label, var(--font-mono));
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--paper-accent);
+  }
+
+  .timeline-year-count {
+    font-size: 0.72rem;
+    color: var(--paper-ink-faint);
+  }
+
+  .timeline-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 20px;
+    border-left: 1px solid var(--paper-line);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .timeline-item {
+    position: relative;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    top: 8px;
+    left: -25px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--paper-nav);
+    border: 2px solid var(--paper-accent);
+  }
+
+  .timeline-entry {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    color: var(--paper-ink);
+    text-decoration: none;
+  }
+
+  .timeline-date {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--paper-ink-faint);
+    white-space: nowrap;
+  }
+
+  .timeline-title {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .timeline-entry:hover .timeline-title {
+    color: var(--paper-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .timeline-pin {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: 8px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--paper-control);
+    color: var(--paper-accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+    padding-left: 0;
+  }
+
+  .timeline-tag {
+    font-size: 0.75rem;
+    color: var(--paper-ink-soft);
+    text-decoration: none;
+  }
+
+  .timeline-tag:hover {
+    color: var(--paper-accent);
+  }
+
+  @media (max-width: 720px) {
+    .timeline-year-group {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .timeline-year {
+      position: static;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .timeline-year-label {
+      font-size: 1.3rem;
+    }
+
+    .timeline-entry {
+      flex-direction: column;
+      gap: 3px;
+    }
+  }
+</style>

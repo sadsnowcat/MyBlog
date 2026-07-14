@@ -1,0 +1,267 @@
+[config.site]
+title = "snowcat"
+description = "A personal navigation portfolio starter built with Astro."
+pageTitle = "snowcat | Digital Publication Space"
+pageDescription = "A calm AI-native personal publication space for notes, links, and writing."
+url = "https://sadsnowcat.com"
+repository = "https://github.com/sadsnowcat"
+footerNote = "Released as an open-source starter."
+
+[config.theme]
+# 可用色盘：
+# green-soft, green-vivid, rose-soft, pink-soft, purple-soft, blue-soft, orange-soft, brown-soft
+palette = "green-soft"
+# 原生 UI 语言。可用值：en、zh-CN、zh-TW。未知值会回退到 en。
+lang = "zh-CN"
+
+[config.fonts]
+# 英文与代码感 UI 字体
+en = "Maple Mono"
+code = "Monaco"
+# 模板内可直接选择：ChillRoundM、LXGW WenKai
+# 中文阅读字体
+zh = "ChillRoundM"
+# 中文完整字体文件
+file = "/fonts/ChillRoundM.ttf"
+
+[config.code]
+lightTheme = "catppuccin-latte"
+darkTheme = "catppuccin-macchiato"
+lineNumbers = true
+wrap = true
+preserveIndent = true
+collapseStyle = "collapsible-auto"
+
+[config.math]
+render = "katex" # "katex" | "mathjax"
+
+[config.comments]
+enabled = false
+provider = "none"
+show_on_posts = true
+
+[config.search]
+enabled = true
+shortcut = "mod+k"
+placeholder = "搜索笔记…"
+maxResults = 6
+
+[config.pages.blog]
+title = "归档 Archives"
+kicker = "Notebook archive"
+subtitle = "Notes from the margins. 字里行间的笔记。"
+note = "Field notes, drafts, and technical margins arranged for slow browsing. 田野笔记、草稿与技术边角，适合慢读。"
+postsPerPage = 6
+# date-fns 使用的日期格式模板。
+dateFormat = "yyyy-MM-dd"
+# 元信息分隔符。可以使用 "|"、"/" 等符号，也可以使用特殊值 "icon"。
+metadataSeparator = "icon"
+# 文章列表封面样式："card" 保留带边框的缩略图，"mask" 会将图片融合到右侧。
+coverImageStyle = "mask"
+
+[config.pages.blog.categories]
+title = "分类"
+kicker = "Browse notes"
+subtitle = ""
+note = "A quiet index of recurring topics, gathered from article frontmatter."
+
+[config.pages.blog.series]
+title = "系列"
+kicker = "Reading paths"
+subtitle = ""
+note = "Connected notes that can be followed in the order they were written."
+
+[config.pages.projects]
+title = "项目"
+kicker = "Project shelf"
+subtitle = "Small tools and site systems. 小工具与站点系统。"
+note = "A compact shelf for implementation choices, releases, and publishing experiments. 关于实现选型、发布与出版实验的紧凑书架。"
+
+[config.pages.vibe]
+title = "vibe"
+kicker = ""
+subtitle = "Life and coding fragments. 生活与代码的碎片。"
+note = "Not formal enough for blog posts, but still part of the story. 不够正式发博客，但也是故事的一部分。"
+showTrail = true
+
+[config.comments.giscus]
+repo = ""
+repo_id = ""
+category = ""
+category_id = ""
+mapping = "pathname"
+strict = "0"
+reactions_enabled = "1"
+emit_metadata = "0"
+input_position = "top"
+light_theme = "light"
+dark_theme = "dark"
+lang = "zh-CN"
+loading = "lazy"
+
+[config.comments.utterances]
+repo = ""
+issue_term = "pathname"
+label = "comment"
+theme = "github-light"
+
+[config.comments.waline]
+server_url = ""
+lang = "zh-CN"
+dark = "html.dark"
+pageview = true
+comment = true
+
+[config.profile]
+name = "snowcat"
+handle = "@snowcat"
+role = "A Cat Developer"
+email = "sadsnowcat@foxmail.com"
+website = "https://sadsnowcat.com/"
+github = "https://github.com/sadsnowcat"
+avatar = "/images/head.jpg"
+
+[[config.topNav.links]]
+label = "Home"
+href = "/"
+
+[[config.topNav.links]]
+label = "Archives"
+href = "/archives"
+
+[[config.topNav.links]]
+label = "Projects"
+href = "/projects"
+
+[[config.topNav.links]]
+label = "Tags"
+href = "/tags"
+
+[[config.topNav.links]]
+label = "Links"
+href = "/links"
+
+[[config.topNav.links]]
+label = "About"
+href = "/about"
+
+[config.home]
+
+[config.home.quote]
+text = [
+  "Maybe every day will be better.",
+  "",
+  "For a tomorrow without tears.",
+]
+
+[config.home.intro]
+title = "here is snowcat"
+name = "snowcat"
+body = [
+  "学习笔记，主要关于 AI、二进制安全和 CTF。不定期更新。",
+  "Notes on AI, binary security, and CTF — updated when inspiration strikes."
+]
+
+[config.home.latest]
+count = 4
+heatmapWeeks = 24
+showHeatmapLatest = true
+excludeDraft = true
+startDate = ""
+dateArchiveBaseHref = ""
+
+[[config.home.navigation]]
+icon = "compass"
+title = "Portfolio"
+subtitle = "Selected work and case studies ｜ 精选项目与案例"
+href = "/projects"
+
+[[config.home.navigation]]
+icon = "pen"
+title = "Archives"
+subtitle = "Essays, notes, and field reports ｜ 随笔、笔记与归档"
+href = "/archives"
+
+[[config.home.navigation]]
+icon = "briefcase"
+title = "Resume"
+subtitle = "Career profile and experience ｜ 职业履历与经历"
+href = "https://github.com/sadsnowcat"
+
+[[config.home.navigation]]
+icon = "github"
+title = "Open Source"
+subtitle = "Code, experiments, and tools ｜ 代码、实验与工具"
+href = "https://github.com/sadsnowcat"
+
+[[config.home.links]]
+label = "GitHub"
+icon = "github"
+tooltip = "https://github.com/sadsnowcat"
+copy = false
+
+[[config.home.links]]
+label = "LinkedIn"
+icon = "linkedin"
+tooltip = "https://www.linkedin.com/"
+copy = false
+
+[[config.home.links]]
+label = "X"
+icon = "x"
+tooltip = "" # 留空会隐藏这个链接项。
+copy = false
+
+[[config.home.links]]
+label = "RSS"
+icon = "rss"
+tooltip = "/rss.xml"
+copy = false
+
+[[config.home.links]]
+label = "Email"
+icon = "mail"
+tooltip = "sadsnowcat@foxmail.com"
+copy = true
+
+[[config.home.links]]
+label = "QQ"
+icon = "qq"
+tooltip = ""
+copy = true
+
+[[config.home.links]]
+label = "WeChat"
+icon = "wechat"
+tooltip = ""
+copy = true
+
+[[config.home.links]]
+label = "Weibo"
+icon = "weibo"
+tooltip = ""
+copy = false
+
+[[config.home.links]]
+label = "Xiaohongshu"
+icon = "xiaohongshu"
+tooltip = ""
+copy = false
+
+[[config.home.links]]
+label = "Zhihu"
+icon = "zhihu"
+tooltip = ""
+copy = false
+
+[[config.home.links]]
+label = "Bilibili"
+icon = "bilibili"
+tooltip = ""
+copy = false
+
+[[config.home.doing]]
+text = "Writing a linux debugger"
+mark = "01"
+
+

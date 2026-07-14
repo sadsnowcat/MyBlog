@@ -1,0 +1,6 @@
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")"
+export PATH="$REPO_ROOT/.venv/bin:$PATH"
+
+bunx lint-staged
+
+bun run build

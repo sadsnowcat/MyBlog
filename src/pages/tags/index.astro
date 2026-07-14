@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import BackLink from '../../components/blog/BackLink.astro';
+import BlogTopNav from '../../components/blog/BlogTopNav.astro';
+import TagCard from '../../components/blog/TagCard.astro';
+import { getSiteConfig } from '../../data/site';
+import { getAllTags } from '../../utils/content-groups';
+import { getUiText } from '../../utils/ui-text';
+
+const siteConfig = await getSiteConfig();
+const { site, theme } = siteConfig;
+const palette = theme.palette;
+const ui = getUiText(siteConfig);
+const tags = getAllTags(await getCollection('blog', ({ data }) => !data.draft));
+
+const isZh = ui.locale.startsWith('zh');
+const pageTitle = isZh ? '标签 Tags' : 'Tags';
+const pageKicker = isZh ? '按标签浏览' : 'Browse by tag';
+const pageNote = isZh
+  ? '从文章 frontmatter 汇总的标签索引，点击查看该标签下的全部文章。'
+  : 'A tag index gathered from article frontmatter. Pick one to see related posts.';
+const emptyNote = isZh ? '还没有添加标签。' : 'No tags have been added yet.';
+---
+
+<!doctype html>
+<html lang={ui.locale} data-palette={palette}>
+  <head>
+    <BaseHead title={`${pageTitle} | ${site.title}`} description={pageNote} />
+    <style>
+      main {
+        width: min(100%, var(--layout-shell-width));
+        max-width: none;
+        padding: 118px var(--layout-page-gutter) var(--layout-page-bottom);
+      }
+
+      .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .empty-note {
+        max-width: 620px;
+        margin: 0;
+        color: var(--paper-ink-soft);
+        font-family: var(--font-serif-cn);
+        font-size: 1rem;
+        line-height: 1.75;
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding-top: 88px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <BlogTopNav />
+    <main data-pagefind-body>
+      <BackLink href="/archives/" label={ui.groups.back} />
+      <header class="archive-hero archive-header-shared page-header-spacing">
+        <div class="archive-header-main">
+          <p class="archive-kicker">{pageKicker}</p>
+          <h1 class="archive-title">{pageTitle}</h1>
+        </div>
+        <div class="archive-copy">
+          <p class="archive-note">{pageNote}</p>
+        </div>
+      </header>
+
+      {
+        tags.length > 0 ? (
+          <section class="tag-cloud" aria-label={pageTitle}>
+            {tags.map((tag) => (
+              <TagCard name={tag.name} slug={tag.slug} count={tag.count} />
+            ))}
+          </section>
+        ) : (
+          <p class="empty-note">{emptyNote}</p>
+        )
+      }
+    </main>
+    <Footer />
+  </body>
+</html>

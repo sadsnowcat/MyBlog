@@ -1,0 +1,31 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import BlogTopNav from '../components/blog/BlogTopNav.astro';
+import FullFontWarmup from '../components/FullFontWarmup.astro';
+import ScrollToTopButton from '../components/ScrollToTopButton.astro';
+import { getSiteConfig } from '../data/site';
+import { getHtmlLang } from '../utils/ui-text';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const siteConfig = await getSiteConfig();
+const palette = siteConfig.theme.palette;
+const htmlLang = getHtmlLang(siteConfig);
+---
+
+<!doctype html>
+<html lang={htmlLang} data-palette={palette}>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <BlogTopNav />
+    <slot />
+    <ScrollToTopButton />
+    <FullFontWarmup />
+  </body>
+</html>
