@@ -1,6 +1,6 @@
 ---
 title: JNCTF 9th
-description: 第一次参加校赛怎么这么难，原来是我太菜了。
+description: "校赛记录"
 date: "2026-04-19 16:00:00"
 draft: false
 sticky: false
