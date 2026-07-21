@@ -7,8 +7,7 @@ const { profile, site } = await getSiteConfig();
 ---
 
 <footer>
-  &copy; {today.getFullYear()}
-  {site.title}. {site.footerNote}
+  {today.getFullYear()} &copy; {site.footerNote}
   <div class="social-links">
     <a href={profile.website} target="_blank" rel="noreferrer">
       <span class="sr-only">Open website</span>

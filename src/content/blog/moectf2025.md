@@ -369,7 +369,7 @@ LABEL_24:
 
 在编写 shellcode 时，一般会使用到系统调用，一段 shellcode 如下
 
-```assembly
+```asm
 mov rbx, 0x68732f6e69622f ;
 push rbx;
 mov rdi, rsp;
@@ -559,7 +559,7 @@ int __fastcall main(int argc, const char **argv, const char **envp)
 ctypes可以调用C库函数，于是使用ctypes加载libc
 init()中有`v0 = time(0LL)`，使time=0，
 
-```C
+```c
 char s[124]; // [rsp+0h] [rbp-90h] BYREF
 int v5; // [rsp+7Ch] [rbp-14h]
 int v6; // [rsp+8Ch] [rbp-4h]
@@ -591,7 +591,7 @@ p.interactive()
 
 ## boom_revenge
 
-见[boom](# boom)
+见 [boom](#boom)
 
 ## fmt
 
@@ -1029,7 +1029,7 @@ int __fastcall main(int argc, const char **argv, const char **envp)
 
 `mian()`中读取了一个整数 `v4`，注意到 `v4>32` 则退出，`introduce()` 中会向 `.bss`段的 `desc`读`v4` 字节。要把 `.bss` 伪造成一个栈，越大越好。
 
-```assembly
+```asm
 lea     rax, [rbp+var_10]
 mov     rsi, rax
 lea     rax, aD           ; "%d"
@@ -1043,7 +1043,7 @@ jle     short loc_401306  ; 如果 eax <= 32 则跳转
 
 这里发现 `read()` 的参数是 `nbytes` 如果是一个负数，那它会被认为是一个巨大的正数。
 
-```assembly
+```asm
 push    rbp
 mov     rbp, rsp
 sub     rsp, 10h
@@ -1058,7 +1058,7 @@ call    _read
 
 `main()` 的末尾
 
-```assembly
+```asm
 mov     eax, cs:len_of_phonenum ;
 movsxd  rdx, eax                ;nbytes
 lea     rax, [rbp+buf]          ;buf

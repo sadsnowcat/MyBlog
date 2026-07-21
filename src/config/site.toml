@@ -1,11 +1,11 @@
 [config.site]
 title = "snowcat"
-description = "A personal navigation portfolio starter built with Astro."
+description = ""
 pageTitle = "snowcat | Digital Publication Space"
-pageDescription = "A calm AI-native personal publication space for notes, links, and writing."
+pageDescription = "Snowcat's blog"
 url = "https://sadsnowcat.com"
 repository = "https://github.com/sadsnowcat"
-footerNote = "Released as an open-source starter."
+footerNote = "sadsnowcat"
 
 [config.theme]
 # 可用色盘：
@@ -49,8 +49,8 @@ maxResults = 6
 [config.pages.blog]
 title = "归档 Archives"
 kicker = "Notebook archive"
-subtitle = "Notes from the margins. 字里行间的笔记。"
-note = "Field notes, drafts, and technical margins arranged for slow browsing. 田野笔记、草稿与技术边角，适合慢读。"
+subtitle = ""
+note = ""
 postsPerPage = 6
 # date-fns 使用的日期格式模板。
 dateFormat = "yyyy-MM-dd"
@@ -74,8 +74,8 @@ note = "Connected notes that can be followed in the order they were written."
 [config.pages.projects]
 title = "项目"
 kicker = "Project shelf"
-subtitle = "Small tools and site systems. 小工具与站点系统。"
-note = "A compact shelf for implementation choices, releases, and publishing experiments. 关于实现选型、发布与出版实验的紧凑书架。"
+subtitle = ""
+note = ""
 
 [config.pages.vibe]
 title = "vibe"

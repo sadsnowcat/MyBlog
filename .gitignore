@@ -41,3 +41,5 @@ scripts/fonts/ui-chars.txt
 public/fonts/*-subset.woff2
 
 README.md
+CHANGELOG.md
+CONTRIBUTING.md
