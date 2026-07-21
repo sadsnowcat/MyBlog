@@ -114,8 +114,8 @@ comment = true
 
 [config.profile]
 name = "snowcat"
-handle = "@snowcat"
-role = "A Cat Developer"
+handle = "@sadsnowcat"
+role = "A Developer"
 email = "sadsnowcat@foxmail.com"
 website = "https://sadsnowcat.com/"
 github = "https://github.com/sadsnowcat"
