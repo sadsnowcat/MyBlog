@@ -313,7 +313,7 @@ int __fastcall main(int argc, const char **argv, const char **envp)
 }
 ```
 
-没有了她()"/bin/sh")没有了你( system )，至少还有 `puts` 可以找到你们 (ret2libc) 。
+没有了她("/bin/sh")没有了你( system )，至少还有 `puts` 可以找到你们 (ret2libc) 。
 
 EXP
 
