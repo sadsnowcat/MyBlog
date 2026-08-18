@@ -449,7 +449,7 @@ io.interactive()
 
 #### 逆向
 
-```C
+```c
 int __fastcall main(int argc, const char **argv, const char **envp)
 {
   int fd; // [rsp+Ch] [rbp-124h]
@@ -624,7 +624,7 @@ io.interactive()
 
 #### 逆向
 
-```C
+```c
 int __fastcall __noreturn main(int argc, const char **argv, const char **envp)
 {
   char buf[264]; // [rsp+0h] [rbp-110h] BYREF

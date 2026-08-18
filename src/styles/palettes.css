@@ -117,7 +117,7 @@
   --paper-accent-soft: #edf2f8;
   --paper-fog: #dde7f0;
   --paper-dust: #e5e5dc;
-  --paper-rule: rgba(63, 88, 125, 0.026);
+  --paper-rule: rgba(63, 88, 125, 0.05);
   --paper-texture-ink: rgba(63, 88, 125, 0.012);
 }
 

@@ -14,20 +14,20 @@
   --gray-light: 226, 231, 224;
   --gray-dark: 48, 53, 49;
   --paper-bg: #fdfdf9;
-  --paper-bg-deep: #f3f5ef;
+  --paper-bg-deep: #f5f3ef;
   --paper-surface: #fffffc;
-  --paper-surface-muted: #f7f8f3;
+  --paper-surface-muted: #f8f6f3;
   --paper-surface-rgb: 255, 255, 252;
   --paper-line: rgba(31, 35, 40, 0.075);
   --paper-line-strong: rgba(31, 35, 40, 0.12);
-  --paper-ink: #272d28;
-  --paper-ink-soft: #667066;
-  --paper-ink-faint: #90998f;
-  --paper-control: rgba(246, 248, 245, 0.76);
-  --paper-control-hover: rgba(238, 243, 237, 0.92);
+  --paper-ink: #2d2a27;
+  --paper-ink-soft: #6e6963;
+  --paper-ink-faint: #97928c;
+  --paper-control: rgba(248, 246, 244, 0.76);
+  --paper-control-hover: rgba(243, 241, 238, 0.92);
   --paper-nav: rgba(255, 255, 252, 0.92);
   --paper-card-wash-top: rgba(255, 255, 252, 0.78);
-  --paper-card-wash-bottom: rgba(247, 248, 243, 0.52);
+  --paper-card-wash-bottom: rgba(248, 246, 243, 0.52);
   --paper-page-bg: #fdfdf9;
   --paper-detail-bg: #fdfdf9;
   --paper-texture-light: rgba(255, 255, 255, 0.18);
@@ -62,7 +62,7 @@
   --font-meta: var(--font-mono);
   --font-code: var(--font-config-code), var(--font-mono);
   --font-ui-label: var(--font-mono);
-  --gray-gradient: rgba(226, 231, 224, 0.38), var(--paper-bg);
+  --gray-gradient: rgba(230, 228, 224, 0.38), var(--paper-bg);
   --box-shadow: var(--paper-shadow-lift);
   color-scheme: light;
 }
@@ -72,31 +72,31 @@
   --gray: 166, 175, 164;
   --gray-light: 56, 64, 56;
   --gray-dark: 225, 229, 221;
-  --paper-bg: #171b18;
-  --paper-bg-deep: #111411;
-  --paper-surface: #202620;
-  --paper-surface-muted: #273026;
+  --paper-bg: #1b1917;
+  --paper-bg-deep: #141210;
+  --paper-surface: #252320;
+  --paper-surface-muted: #2f2b28;
   --paper-surface-rgb: 32, 38, 32;
-  --paper-line: rgba(217, 229, 213, 0.08);
-  --paper-line-strong: rgba(217, 229, 213, 0.14);
-  --paper-ink: #eaebe5;
-  --paper-ink-soft: #b5beb1;
-  --paper-ink-faint: #899487;
-  --paper-control: rgba(42, 51, 43, 0.72);
-  --paper-control-hover: rgba(52, 64, 53, 0.88);
-  --paper-nav: rgba(32, 38, 32, 0.92);
-  --paper-card-wash-top: rgba(39, 47, 39, 0.72);
-  --paper-card-wash-bottom: rgba(28, 33, 28, 0.52);
-  --paper-page-bg: linear-gradient(180deg, rgba(23, 27, 24, 0.98) 0%, rgba(17, 20, 17, 0.98) 100%);
+  --paper-line: rgba(226, 222, 217, 0.08);
+  --paper-line-strong: rgba(226, 222, 217, 0.14);
+  --paper-ink: #ebe9e4;
+  --paper-ink-soft: #bebab4;
+  --paper-ink-faint: #94908a;
+  --paper-control: rgba(50, 47, 43, 0.72);
+  --paper-control-hover: rgba(63, 59, 55, 0.88);
+  --paper-nav: rgba(38, 36, 33, 0.92);
+  --paper-card-wash-top: rgba(47, 44, 41, 0.72);
+  --paper-card-wash-bottom: rgba(33, 31, 29, 0.52);
+  --paper-page-bg: linear-gradient(180deg, rgba(27, 25, 23, 0.98) 0%, rgba(20, 19, 18, 0.98) 100%);
   --paper-detail-bg: linear-gradient(
     180deg,
-    rgba(23, 27, 24, 0.98) 0%,
-    rgba(17, 20, 17, 0.98) 100%
+    rgba(27, 25, 23, 0.98) 0%,
+    rgba(20, 19, 18, 0.98) 100%
   );
   --paper-texture-light: rgba(255, 255, 255, 0.035);
   --paper-shadow: 0 1px 2px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.08);
   --paper-shadow-lift: 0 1px 2px rgba(0, 0, 0, 0.16), 0 6px 14px rgba(0, 0, 0, 0.1);
-  --paper-theme-color: #171b18;
+  --paper-theme-color: #1b1917;
   color-scheme: dark;
 }
 
@@ -260,7 +260,7 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--paper-page-bg);
+  background: transparent;
   color: var(--paper-ink);
   font-family: var(--font-body);
   font-size: 16px;
@@ -273,9 +273,11 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: linear-gradient(var(--paper-rule) 1px, transparent 1px);
-  background-size: 100% 32px;
-  opacity: 0.28;
+  background-image:
+    linear-gradient(var(--paper-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-rule) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 1;
 }
 
 .publication-bg {
