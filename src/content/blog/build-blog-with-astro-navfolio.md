@@ -17,8 +17,6 @@ sidebar:
 
 # 用 astro-navfolio 搭建我的博客
 
-第一篇，聊聊这个博客是怎么搭起来的。
-
 选 [astro-navfolio](https://astro.navfolio.site/) 是因为它够干净：基于 Astro，内置全文搜索、代码高亮、KaTeX 公式、Mermaid 图表和一套温和的"纸感"配色，写技术笔记刚好合适。
 
 ## 做了哪些改造
