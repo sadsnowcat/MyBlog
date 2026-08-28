@@ -1,6 +1,6 @@
 ---
-title: "IoT 学习笔记 0x00"
-description: "先来了解了解嵌入式吧"
+title: "IoT 学习笔记 0x01"
+description: "构建交叉编译工具链"
 date: "2026-08-27T12:04:36.644Z"
 draft: false
 sticky: false
@@ -15,7 +15,7 @@ sidebar:
   relatedPosts: true
 ---
 
-# IoT 学习笔记 0x00
+# IoT 学习笔记 0x01
 
 > 对 IoT 有一些兴趣，先来了解了解嵌入式吧
 >
