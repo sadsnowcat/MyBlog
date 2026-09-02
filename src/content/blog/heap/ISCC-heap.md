@@ -594,4 +594,4 @@ call_parent(3)
 io.interactive()
 ```
 
-> DeepSeek Harness 的 ibc 偏移泄漏常量错了一页，导致一直没有解出 😄😄
+> DeepSeek Harness 的 libc 偏移泄漏常量错了一页，导致一直没有解出 😄😄
