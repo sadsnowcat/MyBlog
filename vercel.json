@@ -1,0 +1,5 @@
+{
+  "buildCommand": "PATH=.venv/bin:$PATH bun run build",
+  "installCommand": "python -m venv .venv && .venv/bin/python -m pip install fonttools brotli && bun install --frozen-lockfile",
+  "outputDirectory": "dist"
+}

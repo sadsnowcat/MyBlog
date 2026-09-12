@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 fd5f3534e69bc2b9cbb3cb98870689402063c6a0 sadsnowcat <sadcatsnow@gmail.com> 1789224555 +0800	commit (initial): chore: initial commit - sadsnowcat blog on astro-navfolio v0.2.0
+fd5f3534e69bc2b9cbb3cb98870689402063c6a0 0cf397ff2343399181fd629094ede6a11528f2ef sadsnowcat <sadcatsnow@gmail.com> 1789225485 +0800	commit: feat: 移除书影音 + about 页加入友情链接
+0cf397ff2343399181fd629094ede6a11528f2ef b07a7aa34e9072d8a5322173d2ad159c02fdc556 sadsnowcat <sadcatsnow@gmail.com> 1789226307 +0800	commit: feat(about): 头部两列布局 + 插入本地图头像
+b07a7aa34e9072d8a5322173d2ad159c02fdc556 900e8ab3720b13a334ade7568aab4d3b298162d9 sadsnowcat <sadcatsnow@gmail.com> 1789226737 +0800	commit: chore: 修 site.toml repository 笔误 bolg -> blog
+900e8ab3720b13a334ade7568aab4d3b298162d9 65244d47faf6be25dd7546c7393217999380aef0 sadsnowcat <sadcatsnow@gmail.com> 1789227267 +0800	commit: fix(about): 改用 navfolio 原生 ::: columns 指令 + mdx 继承 remark 插件

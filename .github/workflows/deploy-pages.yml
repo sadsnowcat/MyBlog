@@ -1,0 +1,77 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: deploy-github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install font subsetting tools
+        run: python -m pip install --user fonttools brotli
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Sync friend circle
+        uses: navfolio/friend-circle-sync@main
+        with:
+          input: https://raw.githubusercontent.com/dodolalorc/dodolalorc/main/friendlinks.json
+          output: public/friend-circle.json
+          max-posts-per-feed: '12'
+          name-field: ${{ vars.NAVFOLIO_FRIEND_LINKS_NAME_FIELD || 'name' }}
+          url-field: ${{ vars.NAVFOLIO_FRIEND_LINKS_URL_FIELD || 'url' }}
+          avatar-field: ${{ vars.NAVFOLIO_FRIEND_LINKS_AVATAR_FIELD || 'avatar' }}
+          rss-field: ${{ vars.NAVFOLIO_FRIEND_LINKS_RSS_FIELD || 'rss' }}
+
+      - name: Build site
+        env:
+          SITE_URL: https://dodolalorc.cn
+          SITE_BASE: /
+        run: bun run build
+
+      - name: Add CNAME
+        run: |
+          echo "dodolalorc.cn" > dist/CNAME
+          touch dist/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+      - name: Deploy to external GitHub Pages repository
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          external_repository: dodolalorc/dodolalorc.github.io
+          personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }}
+          publish_branch: main
+          publish_dir: ./dist/
+          keep_files: false
+          commit_message: "${{ github.event.head_commit.message || format('deploy: {0}', github.sha) }}"

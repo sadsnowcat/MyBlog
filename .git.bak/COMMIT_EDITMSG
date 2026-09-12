@@ -1,0 +1,16 @@
+fix(about): 改用 navfolio 原生 ::: columns 指令 + mdx 继承 remark 插件
+
+之前手撸 <div class=markdown-columns> 是绕路。原作者 dodola 用的是 navfolio 原生
+markdown 容器指令 ::: columns，现在对齐：
+
+- astro.config.mjs: mdx() 集成显式传入 astroPluginConfig 的 remark/rehype 插件，
+  否则 .mdx 文件不跑 remarkLayouts，::: columns 会被当纯文本输出
+- about.mdx: 用 ::: columns cols=2 ratio=2:1 mobile=media-first 包裹
+  文本列 + ::: column media 头像列 (/images/head.jpg)
+- 关键：directive 标记前后必须空行，否则 MDX 把整段合并成一个 <p>，
+  remarkLayouts 的 ^:::...$ 正则匹配不到
+
+构建验证：about 页渲染出
+<section class=markdown-layout markdown-columns markdown-columns-2 is-media-first
+  style=--markdown-layout-column-template:minmax(0,2fr) minmax(0,1fr)>
+两个 markdown-layout-column 子列（头像列带 is-media），移动端 <=720px 单列+图置顶。

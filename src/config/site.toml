@@ -1,0 +1,248 @@
+[config.site]
+title = "snowcat"
+description = "snowcat 的电子小屋"
+pageTitle = "snowcat | A Student"
+pageDescription = "Snowcat's blog"
+url = "https://sadsnowcat.com"
+repository = "https://github.com/sadsnowcat/blog"
+footerNote = "© 2026 sadsnowcat. Built with Astro Navfolio."
+
+[config.theme]
+# 可用色盘：
+# green-soft, green-vivid, rose-soft, pink-soft, purple-soft, blue-soft, orange-soft, brown-soft
+palette = "green-vivid"
+# 原生 UI 语言。可用值：en、zh-CN、zh-TW。未知值会回退到 en。
+lang = "zh-CN"
+
+[config.fonts]
+# 英文与代码感 UI 字体
+en = "Maple Mono"
+code = "Monaco"
+# 模板内可直接选择：ChillRoundM、LXGW WenKai
+# 中文阅读字体
+zh = "ChillRoundM"
+# 中文完整字体文件
+file = "/fonts/ChillRoundM.ttf"
+
+[config.code]
+lightTheme = "catppuccin-latte"
+darkTheme = "catppuccin-macchiato"
+lineNumbers = true
+wrap = true
+preserveIndent = true
+collapseStyle = "collapsible-auto"
+
+[config.math]
+render = "katex" # "katex" | "mathjax"
+
+[config.search]
+enabled = true
+shortcut = "mod+k"
+placeholder = "搜索文章..."
+maxResults = 6
+
+[config.pages.blog]
+title = "文章"
+kicker = "Notebook archive"
+subtitle = ""
+note = ""
+postsPerPage = 6
+# date-fns 使用的日期格式模板。
+dateFormat = "yyyy-MM-dd"
+# 元信息分隔符。可以使用 "|"、"/" 等符号，也可以使用特殊值 "icon"。
+metadataSeparator = "icon"
+# 文章列表封面样式："card" 保留带边框的缩略图，"mask" 会将图片融合到右侧。
+coverImageStyle = "mask"
+
+[config.pages.blog.categories]
+title = "分类"
+kicker = "Browse notes"
+subtitle = "按主题翻找文章。"
+note = " "
+
+[config.pages.blog.series]
+title = "系列"
+kicker = "Reading paths"
+subtitle = "顺着一条线读下去。"
+note = " "
+
+[config.pages.projects]
+title = "项目"
+kicker = "Project shelf"
+subtitle = "玩具项目集合"
+note = ""
+
+[config.pages.vibe]
+title = "空间"
+kicker = ""
+subtitle = " "
+note = " "
+showTrail = true
+
+
+[config.comments]
+# 评论暂时关闭。先把站点上线，等之后部署自己的 waline 后端再开启。
+# 已移除 giscus / utterances / waline 默认配置，避免误指向原作者的服务。
+enabled = false
+provider = "waline"
+show_on_posts = true
+
+[config.profile]
+name = "snowcat"
+handle = "@sadsnowcat"
+role = "本科生 / 二进制安全练习生"
+company = ""
+location = ""
+email = "sadsnowcat@foxmail.com"
+website = "https://sadsnowcat.com"
+github = "https://github.com/sadsnowcat"
+meta = ""
+avatar = "/images/head.jpg"
+
+[[config.topNav.links]]
+label = "主页"
+href = "/"
+
+[[config.topNav.links]]
+label = "文章"
+href = "/blog"
+
+[[config.topNav.links]]
+label = "项目"
+module = "projects"
+
+[[config.topNav.links]]
+label = "空间"
+module = "vibe"
+
+[[config.topNav.links]]
+label = "关于"
+href = "/about"
+
+[config.home]
+
+[config.home.quote]
+text = [
+  "For a tomorrow without tears.",
+  "",
+  "Maybe every day will be better!",
+]
+
+image = "https://github.com/sadsnowcat.png?size=400"
+
+[config.home.intro]
+title = "here is sadsnowcat"
+  name = "sadsnowcat"
+body = [
+  "学习笔记，主要关于 AI、二进制安全和 CTF。不定期更新。",
+  "Notes on AI, binary security, and CTF — updated when inspiration strikes."
+]
+image = "https://github.com/sadsnowcat.png?size=400"
+
+[config.home.latest]
+count = 1
+heatmapWeeks = 24
+showHeatmapLatest = true
+excludeDraft = true
+startDate = ""
+dateArchiveBaseHref = ""
+
+[[config.home.navigation]]
+icon = "pen"
+title = "技术博客"
+subtitle = "笔记与归档"
+href = "/blog"
+
+[[config.home.navigation]]
+icon = "briefcase"
+title = "项目陈列"
+subtitle = " "
+href = "/projects"
+
+[[config.home.navigation]]
+icon = "github"
+title = "GitHub Profile"
+subtitle = " "
+href = "https://github.com/sadsnowcat"
+
+[[config.home.links]]
+label = "GitHub"
+icon = "github"
+tooltip = "https://github.com/sadsnowcat"
+copy = false
+
+[[config.home.links]]
+label = "Website"
+icon = "compass"
+tooltip = "https://sadsnowcat.cn/"
+copy = false
+
+[[config.home.links]]
+label = "Blog"
+icon = "book"
+tooltip = "/blog"
+copy = false
+
+[[config.home.links]]
+label = "RSS"
+icon = "rss"
+tooltip = "/rss.xml"
+copy = false
+
+[[config.home.links]]
+label = "Email"
+icon = "mail"
+tooltip = "sadsnowcat@foxmail.com"
+copy = true
+
+[[config.home.links]]
+label = "LinkedIn"
+icon = "linkedin"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "X"
+icon = "x"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "WeChat"
+icon = "wechat"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "QQ"
+icon = "qq"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "Weibo"
+icon = "weibo"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "Xiaohongshu"
+icon = "xiaohongshu"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "Zhihu"
+icon = "zhihu"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.links]]
+label = "Bilibili"
+icon = "bilibili"
+tooltip = "" # Empty tooltip hides this link item.
+copy = false
+
+[[config.home.doing]]
+text = "Writing a linux debugger"
+mark = "01"
