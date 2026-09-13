@@ -131,8 +131,8 @@ text = [
 image = "https://github.com/sadsnowcat.png?size=400"
 
 [config.home.intro]
-title = "here is sadsnowcat"
-  name = "sadsnowcat"
+title = "here is snowcat"
+  name = "snowcat"
 body = [
   "学习笔记，主要关于 AI、二进制安全和 CTF。不定期更新。",
   "Notes on AI, binary security, and CTF — updated when inspiration strikes."
@@ -174,7 +174,7 @@ copy = false
 [[config.home.links]]
 label = "Website"
 icon = "compass"
-tooltip = "https://sadsnowcat.cn/"
+tooltip = "https://sadsnowcat.com/"
 copy = false
 
 [[config.home.links]]
