@@ -1,7 +1,7 @@
-import { pages, projectsModule, vibeModule } from "@navfolio/pages";
-import { markdownPlugin } from "@navfolio/plugin-markdown";
+import { pages, projectsModule, vibeModule } from '@navfolio/pages';
+import { markdownPlugin } from '@navfolio/plugin-markdown';
 
-import { defineNavfolioConfig } from "./src/plugins/config";
+import { defineNavfolioConfig } from './src/plugins/config';
 
 export default defineNavfolioConfig({
   modules: [projectsModule(), vibeModule()],

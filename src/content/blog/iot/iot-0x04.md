@@ -57,6 +57,13 @@ export PATH=$HOME/x-tools/arm-training-linux-musleabihf/bin:$PATH
 - 在环境中定义 `ARCH` 和 `CROSS_COMPILE` 变量的值（使用 `export`）
 - 或者在每次调用 `make` 时在命令行中指定它们，例如：`make ARCH=... CROSS_COMPILE=... <target>`
 
+```bash
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-
+
+```
+
+
 我们假定 `ARCH` 和 `CROSS_COMPILE` 变量已经通过 `export` 导出。
 
 注意 `.bashrc` 里通常只有工具链的 `PATH`，这两个变量需要在新终端里手动 `export`（或每次 `make` 时在命令行指定），否则 `make` 会按宿主机的 x86_64 架构去配置内核，编出来的东西根本跑不了。
