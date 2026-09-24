@@ -205,8 +205,6 @@ tmpfs on /tmp type tmpfs (rw,relatime)
 tmpfs on /var/log type tmpfs (rw,relatime)
 ```
 
-## 实战踩坑
-
 最初 `mksquashfs` 出来 **23M**（分区 2 只有 8M）。`du -ah nfsroot | sort -rh` 排查：当初从工具链 sysroot 复制 musl 动态链接器时整锅端，带进了 `libstdc++.a`（31M）、`libstdc++.so`（18M）等一堆 C++/GCC 运行库。BusyBox + musl 纯 C 系统**一个都用不到**，真正需要的只有 `lib/ld-musl-armhf.so.1 -> ../usr/lib/libc.so`。挪走后 nfsroot 从 71M 瘦身到 1.5M，squashfs 仅 760K。
 
 对已存在的镜像再跑 `mksquashfs` 会**追加**而不是重建（输出 `Appending to existing filesystem`、`Source directory entry usr already used! - trying usr_1`），产生 `usr_1` 之类的重复目录，大小不变。重做镜像要么先 `rm` 旧文件，要么加 **`-noappend`**。
