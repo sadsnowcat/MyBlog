@@ -3,6 +3,13 @@ import ThemeFooter from '@navfolio/theme-default/components/Footer.astro';
 import { getSiteConfig } from '../data/site';
 
 const { profile, site } = await getSiteConfig();
+// 页脚署名统一为 sadsnowcat，不沿用站点全局 title（snowcat），
+// 避免出现 “© 2026 snowcat. © 2026 sadsnowcat.” 这种重复版权。
+const footerSite = {
+  ...site,
+  title: 'sadsnowcat',
+  footerNote: 'Built with Astro Navfolio.',
+};
 ---
 
-<ThemeFooter site={site} profile={profile} />
+<ThemeFooter site={footerSite} profile={profile} />
