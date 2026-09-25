@@ -1,5 +1,5 @@
 ---
-title: "iot-0x09"
+title: "iot 学习笔记 0x09"
 description: '使用构建系统（以 Buildroot 为例）'
 date: "2026-09-24T13:43:26.508Z"
 draft: false
@@ -15,7 +15,7 @@ sidebar:
   relatedPosts: true
 ---
 
-# iot-0x09
+# iot 学习笔记 0x09
 
 > 了解构建系统如何使用及其工作原理，以 Buildroot 构建系统为例。构建一个完整的 Linux 系统，包括 Linux 内核。
 
