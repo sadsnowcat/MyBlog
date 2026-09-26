@@ -1,5 +1,5 @@
 ---
-title: "IoT 学习笔记 0x06"
+title: "IoT 学习笔记 06"
 description: "访问硬件设备"
 date: "2026-09-13T01:20:00.000Z"
 draft: false

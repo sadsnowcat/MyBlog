@@ -1,5 +1,5 @@
 ---
-title: "iot 学习笔记 0x08"
+title: "iot 学习笔记 08"
 description: '第三方库与应用程序'
 date: "2026-09-23T15:41:19.342Z"
 draft: false

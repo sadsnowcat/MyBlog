@@ -1,5 +1,5 @@
 ---
-title: "IoT 学习笔记 0x01"
+title: "IoT 学习笔记 01"
 description: "构建交叉编译工具链"
 date: "2026-08-27T12:04:36.644Z"
 draft: false

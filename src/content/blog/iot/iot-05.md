@@ -1,5 +1,5 @@
 ---
-title: "IoT 学习笔记 0x05"
+title: "IoT 学习笔记 05"
 description: "基于 BusyBox 的微型嵌入式系统"
 date: "2026-09-13T01:13:26.000Z"
 draft: false

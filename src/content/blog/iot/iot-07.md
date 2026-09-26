@@ -1,5 +1,5 @@
 ---
-title: "IoT 学习笔记 0x07"
+title: "IoT 学习笔记 07"
 description: "块设备文件系统"
 date: "2026-09-22T15:30:00.000Z"
 draft: false

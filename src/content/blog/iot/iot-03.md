@@ -1,5 +1,5 @@
 ---
-title: "IoT 学习笔记 0x03"
+title: "IoT 学习笔记 03"
 description: "获取 Linux 内核源码"
 date: "2026-08-29T10:34:19.446Z"
 draft: false

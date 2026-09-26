@@ -1,5 +1,5 @@
 ---
-title: "IoT 学习笔记 0x02"
+title: "IoT 学习笔记 02"
 description: "引导加载程序 —— U-Boot"
 date: "2026-08-28T09:38:29.574Z"
 draft: false
