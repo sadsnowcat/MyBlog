@@ -2,13 +2,12 @@
 title: "iot 学习笔记 10"
 description: '应用程序开发'
 date: "2026-09-25T04:07:48.460Z"
-draft: true
+draft: false
 sticky: false
-heroImage: ''
 showHeroImage: false
-tags: []
-categories: []
-series: []
+tags: [IoT]
+categories: [IoT]
+series: [IoT Learning]
 comments: true
 sidebar:
   enable: true
