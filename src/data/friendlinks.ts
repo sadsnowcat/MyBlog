@@ -21,6 +21,7 @@ export const friendLinks: FriendLinkItem[] = [
     url: 'https://find-key.github.io/',
     bio: 'To Be PWN Master',
     avatar: 'https://find-key.github.io/images/head_image.jpg',
+    sticky: true,
   },
   {
     name: 'wuye',
@@ -45,12 +46,6 @@ export const friendLinks: FriendLinkItem[] = [
     url: 'https://nandcpointfm.github.io/',
     bio: 'Natika的游戏开发博客',
     avatar: 'https://nandcpointfm.github.io/images/head1.jpg',
-  },
-  {
-    name: 'Yuoooka',
-    url: 'https://yuoooka.cn/',
-    bio: 'Dream to be an Agent Developer & Reverse engineer',
-    avatar: 'https://yuoooka.cn/picture/avatar2.jpg',
   },
   {
     name: 'Chai_na',
