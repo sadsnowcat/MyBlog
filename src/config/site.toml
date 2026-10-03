@@ -90,7 +90,7 @@ show_on_posts = true
 [config.profile]
 name = "snowcat"
 handle = "@sadsnowcat"
-role = "本科生 / 二进制安全练习生"
+role = "CTFer"
 company = ""
 location = ""
 email = "sadsnowcat@foxmail.com"
@@ -123,8 +123,7 @@ href = "/about"
 
 [config.home.quote]
 text = [
-  "For a tomorrow without tears.",
-  "",
+  "Misc is where the dream began; in the end, I embarked on the point of no return that is PWN.",
   "Maybe every day will be better!",
 ]
 
