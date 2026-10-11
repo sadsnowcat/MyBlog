@@ -32,3 +32,5 @@ public/fonts/*-subset.woff2
 public/friend-circle.json
 
 AGENT.md
+update.sh
+.gitignore

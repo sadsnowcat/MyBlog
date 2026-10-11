@@ -1,13 +1,13 @@
 ---
-title: "ctf-xyctf2024"
+title: "XYCTF2024PWN复现"
 description: '久违地找了个比赛复现'
 date: "2026-10-11T14:35:25.270Z"
 draft: false
 sticky: false
 heroImage: ''
 showHeroImage: false
-tags: []
-categories: []
+tags: [PWN,WP]
+categories: [WP]
 series: []
 comments: true
 sidebar:
