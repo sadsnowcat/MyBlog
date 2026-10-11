@@ -1,5 +1,5 @@
 ---
-title: "iot 学习笔记 10"
+title: "IoT 学习笔记 10"
 description: '应用程序开发'
 date: "2026-09-25T04:07:48.460Z"
 draft: false
