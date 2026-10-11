@@ -1,5 +1,5 @@
 ---
-title: BaseCTF2024
+title: BaseCTF2024PWN
 description: "复现了BaseCTF2024部分题目"
 date: "2026-05-10 19:00:00"
 draft: false

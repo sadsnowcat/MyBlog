@@ -1,5 +1,5 @@
 ---
-title: "XYCTF2024PWN复现"
+title: "XYCTF2024PWN"
 description: '久违地找了个比赛复现'
 date: "2026-10-11T14:35:25.270Z"
 draft: false
