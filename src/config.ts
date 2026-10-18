@@ -45,6 +45,10 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
+			name: "友链",
+			url: "/friends/",
+		},
+		{
 			name: "GitHub",
 			url: "https://github.com/sadsnowcat", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
@@ -55,7 +59,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/sadsnowcat.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "snowcat",
-	bio: "CTFer | 内核与固件安全 / PWN",
+	bio: "CTFer | PWN",
 	links: [
 		{
 			name: "GitHub",

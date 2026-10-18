@@ -1,0 +1,114 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { friends } from "../data/friends";
+---
+<MainGridLayout title="友链" description="snowcat 的朋友们">
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-6 md:px-9 py-6 relative w-full">
+            <!-- 页面标题 -->
+            <div class="mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                    before:content-[''] before:w-1 before:h-6 md:before:h-8 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4">
+                    友链
+                </h1>
+                <p class="text-lg text-black/60 dark:text-white/60">发现更多有趣的网站</p>
+            </div>
+
+            <!-- 搜索和标签筛选 -->
+            <div class="mb-6 space-y-3">
+                <div class="relative">
+                    <Icon name="material-symbols:search"
+                          class="absolute left-3 top-1/2 -translate-y-1/2 text-[1.25rem] text-black/30 dark:text-white/30" />
+                    <input id="friend-search" type="text" placeholder="搜索友链名称或描述…"
+                           class="w-full pl-10 pr-4 py-2 rounded-lg bg-[var(--btn-regular-bg)] text-90 outline-none
+                           focus:ring-2 focus:ring-[var(--primary)] transition" />
+                </div>
+            </div>
+
+            <!-- 友链卡片 -->
+            <div id="friends-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                {friends.map((friend) => (
+                    <a href={friend.url} target="_blank" rel="noopener noreferrer"
+                       class="friend-card group block bg-transparent rounded-xl border border-black/10 dark:border-white/10
+                       p-5 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-[var(--primary)]"
+                       data-title={friend.name} data-desc={friend.bio}>
+                        <div class="flex items-start gap-4">
+                            <img src={friend.avatar} alt={friend.name} width="64" height="64" loading="lazy"
+                                 referrerpolicy="no-referrer"
+                                 class="w-16 h-16 flex-shrink-0 rounded-xl object-cover bg-black/5 dark:bg-white/10" />
+                            <div class="min-w-0 flex-1">
+                                <div class="font-bold text-lg text-black/90 dark:text-white/90 truncate">{friend.name}</div>
+                                <div class="text-sm text-black/50 dark:text-white/50 mt-1 line-clamp-2">{friend.bio}</div>
+                            </div>
+                        </div>
+                    </a>
+                ))}
+            </div>
+            <div id="friends-empty" class="hidden text-center text-black/50 dark:text-white/50 py-10">
+                没有找到匹配的友链
+            </div>
+
+            <!-- 申请友链 -->
+            <div class="mt-10 pt-8 border-t border-[var(--line-divider)]">
+                <h2 class="text-xl font-bold text-black/90 dark:text-white/90 mb-3">申请友链</h2>
+                <p class="text-black/70 dark:text-white/70 mb-3">
+                    欢迎交换友链。请通过邮件联系我，或按下面的格式留言：
+                </p>
+                <ul class="list-disc pl-6 space-y-1 text-black/70 dark:text-white/70">
+                    <li>名称：snowcat</li>
+                    <li>链接：<a class="text-[var(--primary)]" href="https://sadsnowcat.com/">https://sadsnowcat.com/</a></li>
+                    <li>头像：<a class="text-[var(--primary)]" href="/images/head.jpg">https://sadsnowcat.com/images/head.jpg</a></li>
+                    <li>描述：CTFer | PWN</li>
+                    <li>邮箱：<a class="text-[var(--primary)]" href="mailto:sadsnowcat@foxmail.com">sadsnowcat@foxmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</MainGridLayout>
+
+<script>
+    function initFriendsPage() {
+        const grid = document.getElementById("friends-grid") as HTMLElement | null;
+        if (!grid || grid.dataset.friendsInit === "1") return;
+        grid.dataset.friendsInit = "1";
+
+        const cards = Array.from(grid.querySelectorAll<HTMLElement>(".friend-card"));
+        const search = document.getElementById("friend-search") as HTMLInputElement | null;
+        const empty = document.getElementById("friends-empty");
+
+        function applyFilter() {
+            const keyword = search ? search.value.trim().toLowerCase() : "";
+            let visible = 0;
+
+            for (const card of cards) {
+                const title = (card.dataset.title || "").toLowerCase();
+                const desc = (card.dataset.desc || "").toLowerCase();
+                const show = !keyword || title.includes(keyword) || desc.includes(keyword);
+
+                card.classList.toggle("hidden", !show);
+                if (show) visible++;
+            }
+
+            if (empty) empty.classList.toggle("hidden", visible > 0);
+        }
+
+        search?.addEventListener("input", applyFilter);
+        applyFilter();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initFriendsPage);
+    } else {
+        initFriendsPage();
+    }
+
+    // Swup 切换页面后重新初始化
+    document.addEventListener("swup:enable", () => {
+        window.swup?.hooks.on("page:view", initFriendsPage);
+    });
+    if (window.swup?.hooks) {
+        window.swup.hooks.on("page:view", initFriendsPage);
+    }
+</script>
