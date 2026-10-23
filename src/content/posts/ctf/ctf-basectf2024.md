@@ -3,9 +3,8 @@ title: BaseCTF2024PWN
 published: 2026-05-10T19:00:00+08:00
 description: 复现了BaseCTF2024部分题目
 tags:
-  - PWN
-  - WP
-category: WP
+  - pwn
+category: CTF
 draft: false
 lang: zh_CN
 ---

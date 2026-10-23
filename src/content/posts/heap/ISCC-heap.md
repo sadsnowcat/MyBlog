@@ -3,11 +3,11 @@ title: ISCC Heap
 published: 2026-09-02T09:39:16.988Z
 description: 一次简单的堆利用
 tags:
-  - PWN
-category: PWN
+  - pwn
+category: Heap
 draft: false
 lang: zh_CN
-image: ./banner1.jpg
+# image: 
 ---
 
 # ISCC PWN test

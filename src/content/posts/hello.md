@@ -3,7 +3,7 @@ title: Hello World
 published: 2026-01-17T09:00:00+08:00
 description: Hello World
 tags: []
-category: Origin
+category: Misc
 draft: false
 lang: zh_CN
 ---

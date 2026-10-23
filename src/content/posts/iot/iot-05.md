@@ -2,8 +2,7 @@
 title: IoT 学习笔记 05
 published: 2026-09-13T01:13:26.000Z
 description: 基于 BusyBox 的微型嵌入式系统
-tags:
-  - IoT
+tags: []
 category: IoT
 draft: false
 lang: zh_CN

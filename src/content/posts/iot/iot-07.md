@@ -2,8 +2,7 @@
 title: IoT 学习笔记 07
 published: 2026-09-22T15:30:00.000Z
 description: 块设备文件系统
-tags:
-  - IoT
+tags: []
 category: IoT
 draft: false
 lang: zh_CN

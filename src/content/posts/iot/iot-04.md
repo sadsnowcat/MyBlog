@@ -2,8 +2,7 @@
 title: IoT 学习笔记 04
 published: 2026-08-29T10:39:18.275Z
 description: 内核交叉编译
-tags:
-  - IoT
+tags: []
 category: IoT
 draft: false
 lang: zh_CN

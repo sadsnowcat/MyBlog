@@ -3,9 +3,9 @@ title: MoeCTF2025PWN笔记
 published: 2026-01-26T12:00:00+08:00
 description: MoeCTF2025PWN个人向学习笔记
 tags:
-  - PWN
-  - WP
-category: WP
+  - pwn
+  - glibc
+category: CTF
 draft: false
 lang: zh_CN
 ---

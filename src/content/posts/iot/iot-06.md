@@ -2,8 +2,7 @@
 title: IoT 学习笔记 06
 published: 2026-09-13T01:20:00.000Z
 description: 访问硬件设备
-tags:
-  - IoT
+tags: []
 category: IoT
 draft: false
 lang: zh_CN
