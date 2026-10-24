@@ -12,6 +12,8 @@ lang: zh_CN
 
 # 堆利用基础
 
+> *更新于 2026/10/24* 
+
 堆是 **虚拟内存空间的一段连续的线性区域** ，提供动态分配的内存，允许程序申请大小未知的内存。在用户与操作系统之间，作为动态内存管理的中间人，响应程序的申请内存请求，向操作系统申请内存，然后返回给程序。并且管理用户所释放的内存，适时归还给操作系统。
 
 glibc 使用 ptmalloc2 作为堆管理器。
@@ -92,3 +94,23 @@ ptmalloc 采用分箱式方法对空闲的 `chunk` 进行管理。首先，它�
 | small bin    | 0x20-0x3F0 | 62                   | 双向循环链表 |
 | large bin    | ≥0x400     | 63                   | 双向循环链表 |
 | unsorted bin | 不限大小   | 1                    | 双向循环链表 |
+
+在 glibc 的堆管理中，一个空闲 chunk 进入哪个 bin，**主要由 `free()` 时的 chunk 大小和对应 bin 的当前状态决定**。优先级通常是：**tcache → fastbin → unsorted bin → small/large bin**。
+
+### tcache bins（第一优先级）
+*   **进入条件**：chunk 大小在 **0x20 ~ 0x410**（64位默认）范围内，且对应 size class 的 tcache 链表**未满（< 7 个）**。
+*   **关键点**：只要满足上述条件，free 会**最先**放入 tcache，且**不会**触发相邻空闲 chunk 的合并 。
+
+### fast bins（第二优先级）
+*   **进入条件**：chunk 大小 ≤ **0xa0**（默认 `global_max_fast`），且对应的 tcache bin **已满**。
+*   **关键点**：fastbin 是单链表 LIFO，同样**不合并**。注意，如果 chunk 大小超过 0xa0 但 tcache 满了，它会直接跳过 fastbin 进入 unsorted bin 。
+
+### unsorted bin（中轉站）
+*   **进入条件**：不满足上述 fastbin/tcache 条件的所有其他 chunk（例如 tcache 满且尺寸较大的 chunk，或 fastbin 范围外的 chunk），在 free 时会**首先**进入这里。
+*   **关键点**：它是个暂存区。后续调用 `malloc` 时，glibc 会扫描 unsorted bin，将不匹配的 chunk **归位**（sort）到 small bin 或 large bin 中 。
+
+### small bins / large bins（最终归位）
+这两个 bin **通常不是 `free` 的直接目标**，而是 `malloc` 整理 unsorted bin 时的产物：
+*   **进入 small bin 条件**：当 `malloc` 扫描 unsorted bin 时，若 chunk 大小 **< 0x400** 且不匹配当前请求，它会被放入对应的 small bin。
+*   **进入 large bin 条件**：若 chunk 大小 **≥ 0x400** 且不匹配，则被放入 large bin（内部按大小排序）。
+*   **合并**：与 tcache/fastbin 不同，chunk 在进入 small/large bin 的过程中（或通过 `malloc_consolidate`），会尝试与相邻空闲 chunk 合并 。
