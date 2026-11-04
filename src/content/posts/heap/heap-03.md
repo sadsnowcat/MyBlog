@@ -1,5 +1,5 @@
 ---
-title: 
+title: 从零开始的堆利用 03
 published: 2026-10-26
 description: 'off-by-one 与 fake chunk '
 image: ''
@@ -11,7 +11,7 @@ draft: true
 lang: zh_CN
 ---
 
-# 
+# 从零开始的堆利用 03
 
 ## 逆向
 
