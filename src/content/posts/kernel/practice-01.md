@@ -417,3 +417,39 @@ int main(void)
     return 0;
 }
 ```
+
+调试小记
+
+做内核题也同样是离不开调试的，强大的 gdb 可以帮我们调试。这样启动 gdb ：
+
+```bash
+gdb ./vmlinux
+```
+
+之后这样连接到我们通过 `./start.sh` 启动的 Kernel
+
+```
+target remote :1234
+```
+
+之后就可以进行调试了，调试时最好修改一下 cpio 文件把我们改成 root 并且在 start.sh 里设置 nokaslr，这样方便从 `/sys/module/core/sections/.text` 获取地址。
+
+> ~~之后就是考验大手子们的调试能力啦~~
+
+调试时遇到的一个地方是，IDA 将 `core_copy_func()` 中 `rep movsb` 指令翻译成 `qmemcpy()` 调试的时候当然是看不到 `qmemcpy()` 的，而是执行到 `rep movsb` 时循环执行，原来是这样的
+
+- **`MOVSB` (Move String Byte)**：负责搬运**一个字节**。它默认从 `DS:SI`（或 `ESI`）指向的源地址读取一个字节，写入 `ES:DI`（或 `EDI`）指向的目标地址，然后根据方向标志位（DF）自动递增或递减这两个指针。
+  
+- **`REP` (Repeat)**：作为前缀，指示 CPU **重复**执行后面的指令。重复次数由计数寄存器 `CX`（或 `ECX`/`RCX`）控制。每执行一次，`CX` 自动减 1，直到 `CX` 为 0 时停止。
+  
+
+寄存器设置如下：
+
+- **`RSI`**：源地址
+  
+- **`RDI`**：目标地址
+  
+- **`RCX`**：要复制的字节数
+  
+
+大致就是每执行一次复制一个字节，每次执行 `RSI` 和 `RDI` 加 1 ，`RCX` 减 1 直到 `CX` 为 0 时停止。
