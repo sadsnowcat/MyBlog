@@ -1,8 +1,8 @@
 ---
-title: Hello World
+title: 随笔 & 小记
 published: 2026-01-17T09:00:00+08:00
 description: Hello World
-tags: []
+tags: [随笔]
 category: Misc
 draft: false
 lang: zh_CN
