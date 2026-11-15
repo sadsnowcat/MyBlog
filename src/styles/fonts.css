@@ -1,15 +1,24 @@
 /* ==========================================================================
    站点字体
    --------------------------------------------------------------------------
-   ChillRoundM：中文圆体，用来统一标题与正文的气质。
-   为了让 6.3MB 的原始字体可用，这里用的是按站点实际用字做的子集（约 130KB）；
-   子集之外的字会自动回退到 --font-sans 里的系统字体，不影响阅读。
+   ChillRoundM：中文圆体，用在标题、品牌名等展示位置。
+   Noto Sans SC：正文与界面文字，屏幕阅读更清晰。
+   两个字体都按「站点用字 + GB2312 一级汉字（3755）」做了子集，共 3896 个常用字，
+   文件分别约 0.66MB / 0.55MB；子集之外的字回退到系统字体。
    Monaco：等宽，用于 meta / 代码块外的等宽小字。
    ========================================================================== */
 
 @font-face {
   font-family: 'ChillRoundM';
   src: url('/fonts/chillroundm-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans SC Site';
+  src: url('/fonts/noto-sans-sc-subset.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

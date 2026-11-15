@@ -56,10 +56,10 @@
     0 1px 4px 0 var(--shadow-color-2), 0 0 0 1px var(--shadow-color-1),
     0 0 0 1px inset var(--shadow-color-1);
 
-  /* 字体：全站统一用中文圆体，缺字回退系统字体 */
+  /* 正文/界面用思源黑体，标题用中文圆体 */
   --font-sans:
-    'ChillRoundM', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC',
-    system-ui, sans-serif;
+    'Noto Sans SC Site', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    'Noto Sans SC', system-ui, sans-serif;
   /* 等宽字体后面挂上中文字体：代码块里的中文注释不会变成方块 */
   --font-mono:
     'Monaco', 'Geist Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,

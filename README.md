@@ -46,7 +46,7 @@ src/
 ├── lib/                  # 数据查询（排序、分页、聚合、相关文章）与工具函数
 ├── scripts/site.ts       # 客户端交互（主题、目录、搜索、代码复制、mermaid…）
 └── styles/
-    ├── fonts.css         # @font-face（ChillRoundM 子集 + Monaco）
+    ├── fonts.css         # @font-face（标题圆体 + 正文思源黑体 + Monaco）
     ├── theme.css         # 设计令牌 + 全局样式 + 复用组件类
     ├── markdown.css      # 正文排版（只改这一个文件就能调正文观感）
     └── content.css       # 内容页的实心悬浮卡片（作用域：body.solid）
@@ -152,8 +152,10 @@ copyright: true                  # 是否显示版权卡片
 米白纸底、细线分隔、等宽小标、超大中文标题、编号列表、椭圆轨道标签云。
 
 - 作用域：所有样式挂在 `body.solid` 下（`src/styles/content.css`），首页也复用这套卡片（大图区不受影响）；
-- 字体：全站统一 `ChillRoundM` 中文圆体（按站点实际用字做了子集，约 130KB）+ `Monaco` 等宽，
-  文件在 `public/fonts/`，声明在 `src/styles/fonts.css`，缺字自动回退系统字体；
+- 字体：**标题**用 `ChillRoundM` 中文圆体（0.66MB 子集），**正文与界面**用 `Noto Sans SC` 思源黑体
+  （0.55MB 子集），等宽用 `Monaco`；两个中文字体都按「站点用字 + GB2312 一级汉字（3755）」
+  做了 3896 字的子集，基本不会再出现缺字，缺字仍会回退系统字体。文件在 `public/fonts/`，
+  声明在 `src/styles/fonts.css`；
 - 配色：卡片/线条是独立的 `--paper-*` 变量（名字沿用历史，值现在是主题的实心色）；
   强调色用站点主色 `--primary-color`（标签云的多彩色卡在
   `TagCloud.astro` 的 `colors` 数组里，可以整套替换）；
