@@ -1,13 +1,11 @@
 ---
-title: 如何使用 GDB + pwndbg 调试
-published: 2026-10-23
-description: 'gdb + pwndbg 常用调试命令整理，以及和 pwntools 的联动调试'
-image: ''
+title: "如何使用 GDB + pwndbg 调试"
+date: 2026-10-23T00:00:00
+description: "gdb + pwndbg 常用调试命令整理，以及和 pwntools 的联动调试"
 tags:
-  - pwn
-category: Misc
-draft: false
-lang: ''
+  - "pwn"
+categories:
+  - "Misc"
 ---
 
 # 如何使用 GDB + pwndbg 调试
@@ -92,7 +90,7 @@ ni
 stack
 ```
 
-![stack](./pic/gdb/image01.png)
+![stack](/images/posts/start/pic/gdb/image01.png)
 
 默认只显示一部分，想多看几行可以指定数量：
 
@@ -145,7 +143,7 @@ vmmap
 tele 0x7fffffffda20
 ```
 
-![tele](./pic/gdb/image02.png)
+![tele](/images/posts/start/pic/gdb/image02.png)
 
 查看 PIE 基址、canary、libc 偏移：
 

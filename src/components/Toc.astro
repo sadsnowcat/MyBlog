@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const maxDepth = site.post.toc.maxDepth;
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= maxDepth);
+---
+
+{
+  site.post.toc.enable && items.length > 1 && (
+    <nav class="card max-h-[calc(100vh-var(--navbar-height)-120px)] overflow-y-auto p-4" aria-label="文章目录" data-toc>
+      <p class="section-label mb-2.5 inline-flex items-center gap-1.5">
+        <Icon name="list" size={13} />
+        目录
+      </p>
+      <ul class="flex flex-col gap-0.5 text-[0.82rem]">
+        {items.map((heading) => (
+          <li>
+            <a
+              href={`#${heading.slug}`}
+              data-toc-link={heading.slug}
+              class:list={[
+                'block rounded-xs border-l-2 border-transparent py-1.5 pr-1 text-ink-muted transition-colors hover:text-primary',
+                heading.depth === 2 ? 'pl-2 font-medium' : '',
+                heading.depth === 3 ? 'pl-5' : '',
+                heading.depth === 4 ? 'pl-8 text-[0.78rem]' : '',
+              ]}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

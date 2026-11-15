@@ -1,0 +1,45 @@
+---
+import type { TermStat } from '../../lib/posts';
+
+interface Props {
+  tags: TermStat[];
+}
+
+const { tags } = Astro.props;
+
+/** 低饱和的「档案色卡」，按标签序号循环取色（参考站用的是同一套思路） */
+const colors = [
+  '#2f8f5b', '#bd6b1e', '#6e8f3f', '#a34d78', '#3f7f96',
+  '#9a5f2e', '#516fb0', '#8b6f2f', '#4f8a72', '#b1554b',
+  '#687a32', '#6f5a9a', '#2f7f89', '#a07836', '#86615b',
+  '#4d7c4f', '#8a6ea7', '#a85b36', '#427a67', '#8a7d3a',
+];
+
+const counts = tags.map((tag) => tag.count);
+const maxCount = Math.max(1, ...counts);
+const minCount = Math.min(...counts, maxCount);
+const countRange = Math.max(1, maxCount - minCount);
+const weightOf = (count: number) => (count - minCount) / countRange;
+---
+
+<section
+  class:list={['p-cloud', tags.length <= 12 && 'is-small']}
+  aria-label="全部标签"
+  style={`--cloud-min: ${tags.length > 24 ? '560px' : '420px'}`}
+>
+  {
+    tags.map((tag, index) => (
+      <a
+        class="p-cloud-tag"
+        href={`/blog/tags/${tag.slug}/`}
+        style={`--tag-color: ${colors[index % colors.length]}; --tag-weight: ${weightOf(
+          tag.count,
+        ).toFixed(3)}; --tag-tilt: ${((index % 7) - 3) * 1.35}deg;`}
+        title={`${tag.name} · ${tag.count} 篇`}
+      >
+        <span>#{tag.name}</span>
+        <small>{tag.count}</small>
+      </a>
+    ))
+  }
+</section>

@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 03
-published: 2026-08-29T10:34:19.446Z
-description: 获取 Linux 内核源码
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 03"
+date: 2026-08-29T10:34:19.446000+00:00
+description: "获取 Linux 内核源码"
+categories:
+  - "IoT"
 ---
 
 # IoT 学习笔记 0x03

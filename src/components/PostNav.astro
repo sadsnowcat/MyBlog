@@ -1,0 +1,44 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config';
+import { postPath, type Post } from '../lib/posts';
+
+interface Props {
+  prev?: Post;
+  next?: Post;
+}
+
+const { prev, next } = Astro.props;
+const show = site.post.prevNext && (prev || next);
+---
+
+{
+  show && (
+    <nav class="mt-8 grid gap-3 sm:grid-cols-2" aria-label="上一篇 / 下一篇">
+      {prev ? (
+        <a href={postPath(prev)} class="card card-hover card-hover-lift group flex flex-col gap-1.5 p-4">
+          <span class="inline-flex items-center gap-1.5 text-[0.72rem] text-ink-muted">
+            <Icon name="arrow-left" size={13} class="transition-transform group-hover:-translate-x-0.5" />
+            上一篇
+          </span>
+          <span class="line-clamp-2 font-display text-[0.95rem] font-medium text-ink-strong">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span class="hidden sm:block" />
+      )}
+
+      {next && (
+        <a
+          href={postPath(next)}
+          class="card card-hover card-hover-lift group flex flex-col items-end gap-1.5 p-4 text-right"
+        >
+          <span class="inline-flex items-center gap-1.5 text-[0.72rem] text-ink-muted">
+            下一篇
+            <Icon name="arrow-right" size={13} class="transition-transform group-hover:translate-x-0.5" />
+          </span>
+          <span class="line-clamp-2 font-display text-[0.95rem] font-medium text-ink-strong">{next.data.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}

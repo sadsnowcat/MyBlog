@@ -1,0 +1,107 @@
+---
+/**
+ * 内联 SVG 图标集。
+ * 不引 Font Awesome（原主题用了，体积大且需要额外 CSS），
+ * 需要新图标时在这里加一条 path 即可，其他地方用 <Icon name="xxx" />。
+ */
+export type IconName =
+  | 'home'
+  | 'archive'
+  | 'tag'
+  | 'folder'
+  | 'user'
+  | 'link'
+  | 'search'
+  | 'github'
+  | 'x'
+  | 'mail'
+  | 'rss'
+  | 'telegram'
+  | 'bilibili'
+  | 'wechat'
+  | 'calendar'
+  | 'clock'
+  | 'eye'
+  | 'sun'
+  | 'moon'
+  | 'menu'
+  | 'close'
+  | 'arrow-left'
+  | 'arrow-right'
+  | 'arrow-up'
+  | 'chevron-down'
+  | 'chevron-right'
+  | 'external'
+  | 'copy'
+  | 'check'
+  | 'list'
+  | 'book';
+
+export const icons: Record<IconName, string> = {
+  home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  archive: '<path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/>',
+  tag: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1"/>',
+  folder: '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>',
+  user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+  github:
+    '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>',
+  x: '<path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>',
+  mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/>',
+  rss: '<path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5"/>',
+  telegram: '<path d="M22 3L2 10.5l6.5 2.5L21 5.5 10 14l-.5 6 3.5-4 4.5 3.5z"/>',
+  bilibili:
+    '<rect x="2" y="7" width="20" height="14" rx="4"/><path d="M7 3l3 4M17 3l-3 4"/><circle cx="8.5" cy="13" r="0.6"/><circle cx="15.5" cy="13" r="0.6"/>',
+  wechat:
+    '<path d="M9 3C5.1 3 2 5.6 2 8.8c0 1.8 1 3.4 2.6 4.5L4 16l2.5-1.3c.8.2 1.6.3 2.5.3h.6"/><path d="M22 15.2c0-2.6-2.5-4.7-5.6-4.7s-5.6 2.1-5.6 4.7 2.5 4.7 5.6 4.7c.7 0 1.4-.1 2-.3L21 21l-.6-2.2c1-.9 1.6-2.1 1.6-3.6z"/>',
+  calendar:
+    '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+  sun: '<circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M1.5 12H4M20 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/>',
+  moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+  menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
+  close: '<path d="M18 6L6 18M6 6l12 12"/>',
+  'arrow-left': '<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>',
+  'arrow-right': '<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>',
+  'arrow-up': '<path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>',
+  'chevron-down': '<path d="M6 9l6 6 6-6"/>',
+  'chevron-right': '<path d="M9 18l6-6-6-6"/>',
+  external: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>',
+  copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  check: '<path d="M20 6L9 17l-5-5"/>',
+  list: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+};
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  class?: string;
+  /** 线条粗细 */
+  strokeWidth?: number;
+  /** 填充模式（品牌图标用） */
+  fill?: boolean;
+  'aria-hidden'?: boolean;
+}
+
+const { name, size = 18, class: className = '', strokeWidth = 1.8, fill = false, ...rest } = Astro.props;
+const markup = icons[name] ?? '';
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill={fill ? 'currentColor' : 'none'}
+  stroke={fill ? 'none' : 'currentColor'}
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class:list={['inline-block shrink-0', className]}
+  aria-hidden="true"
+  set:html={markup}
+  {...rest}
+/>

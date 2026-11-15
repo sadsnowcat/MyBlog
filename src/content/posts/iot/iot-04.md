@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 04
-published: 2026-08-29T10:39:18.275Z
-description: 内核交叉编译
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 04"
+date: 2026-08-29T10:39:18.275000+00:00
+description: "内核交叉编译"
+categories:
+  - "IoT"
 ---
 
 # IoT 学习笔记 0x04

@@ -1,0 +1,42 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContentHeader from '../../../components/content/ContentHeader.astro';
+import PostRow from '../../../components/content/PostRow.astro';
+import Icon from '../../../components/Icon.astro';
+import { collectTerms, getPosts, postsWithTerm, type Post } from '../../../lib/posts';
+
+import '../../../styles/content.css';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts();
+  const tags = collectTerms(posts, 'tags');
+  return tags.map((tag) => ({
+    params: { tag: tag.slug },
+    props: { name: tag.name, posts: postsWithTerm(posts, 'tags', tag.name) },
+  }));
+};
+
+interface Props {
+  name: string;
+  posts: Post[];
+}
+
+const { name, posts } = Astro.props;
+---
+
+<BaseLayout title={`标签：${name}`} description={`标签「${name}」下的全部文章`} solid>
+  <div class="p-page">
+    <a class="p-back" href="/blog/tags/">
+      <Icon name="arrow-left" size={13} />
+      全部标签
+    </a>
+
+    <ContentHeader kicker="标签" title={name} />
+
+    <ul class="p-list p-list-flush">
+      {posts.map((post, index) => <PostRow post={post} index={index} />)}
+    </ul>
+  </div>
+</BaseLayout>

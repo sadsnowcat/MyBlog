@@ -1,141 +1,177 @@
 ---
-import { Icon } from "astro-icon/components";
-import { navBarConfig, siteConfig } from "../config";
-import { LinkPresets } from "../constants/link-presets";
-import { LinkPreset, type NavBarLink } from "../types/config";
-import { url } from "../utils/url-utils";
-import LightDarkSwitch from "./LightDarkSwitch.svelte";
-import Search from "./Search.svelte";
-import DisplaySettings from "./widget/DisplaySettings.svelte";
-import NavMenuPanel from "./widget/NavMenuPanel.astro";
+import Icon from './Icon.astro';
+import { site } from '../config';
 
-const className = Astro.props.class;
-
-let links: NavBarLink[] = navBarConfig.links.map(
-	(item: NavBarLink | LinkPreset): NavBarLink => {
-		if (typeof item === "number") {
-			return LinkPresets[item];
-		}
-		return item;
-	},
-);
+const { navbar } = site;
+const title = navbar.title ?? site.title;
+const isActive = (path: string) => {
+  if (path === '/') return Astro.url.pathname === '/';
+  return Astro.url.pathname.startsWith(path);
+};
 ---
-<div id="navbar" class="z-50 onload-animation">
-    <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
-    <div class:list={[
-        className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
-            <div class="flex flex-row text-[var(--primary)] items-center text-md">
-                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
-                {siteConfig.title}
-            </div>
-        </a>
-        <div class="hidden md:flex">
-            {links.map((l) => {
-                return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
-                >
-                    <div class="flex items-center">
-                        {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
-                    </div>
-                </a>;
-            })}
-        </div>
-        <div class="flex">
-            <!--<SearchPanel client:load>-->
-            <Search client:only="svelte"></Search>
-            {!siteConfig.themeColor.fixed && (
-                    <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
-                        <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
-                    </button>
-            )}
-            <LightDarkSwitch client:only="svelte"></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
-                <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
-            </button>
-        </div>
-        <NavMenuPanel links={links}></NavMenuPanel>
-        <DisplaySettings client:only="svelte"></DisplaySettings>
-    </div>
-</div>
 
-<script>
-function switchTheme() {
-    if (localStorage.theme === 'dark') {
-        document.documentElement.classList.remove('dark');
-        localStorage.theme = 'light';
-    } else {
-        document.documentElement.classList.add('dark');
-        localStorage.theme = 'dark';
-    }
-}
-
-function loadButtonScript() {
-    let switchBtn = document.getElementById("scheme-switch");
-    if (switchBtn) {
-        switchBtn.onclick = function () {
-            switchTheme()
-        };
-    }
-
-    let settingBtn = document.getElementById("display-settings-switch");
-    if (settingBtn) {
-        settingBtn.onclick = function () {
-            let settingPanel = document.getElementById("display-setting");
-            if (settingPanel) {
-                settingPanel.classList.toggle("float-panel-closed");
-            }
-        };
-    }
-
-    let menuBtn = document.getElementById("nav-menu-switch");
-    if (menuBtn) {
-        menuBtn.onclick = function () {
-            let menuPanel = document.getElementById("nav-menu-panel");
-            if (menuPanel) {
-                menuPanel.classList.toggle("float-panel-closed");
-            }
-        };
-    }
-}
-
-loadButtonScript();
-</script>
-
-{import.meta.env.PROD && <script is:inline define:vars={{scriptUrl: url('/pagefind/pagefind.js')}}>
-async function loadPagefind() {
-    try {
-        const response = await fetch(scriptUrl, { method: 'HEAD' });
-        if (!response.ok) {
-            throw new Error(`Pagefind script not found: ${response.status}`);
+<header class="fixed inset-x-0 top-0 z-50">
+  <div class="navbar-gradient h-[var(--navbar-height)] w-full border-b border-white/10 shadow-sm backdrop-blur-[10px]">
+    <nav
+      class="mx-auto flex h-full max-w-[var(--navbar-width)] items-center justify-between px-5"
+      aria-label="主导航"
+    >
+      <!-- 左：站点标题 -->
+      <div class="flex min-w-0 items-center gap-2.5">
+        {
+          navbar.logo && (
+            <a href="/" class="shrink-0" aria-label={title}>
+              <img src={navbar.logo} alt="" class="h-8 w-8 rounded-sm object-cover" />
+            </a>
+          )
         }
+        <a
+          href="/"
+          class="truncate font-display text-[1.55rem] font-[520] leading-none text-ink-strong transition-opacity hover:opacity-80"
+        >
+          {title}
+        </a>
+      </div>
 
-        const pagefind = await import(scriptUrl);
+      <!-- 中/右：导航链接 -->
+      <ul class="hidden items-center gap-1 md:flex">
+        {
+          navbar.links.map((link) => (
+            <li class="relative group">
+              {link.submenu?.length ? (
+                <>
+                  <button
+                    type="button"
+                    class:list={[
+                      'flex items-center gap-1.5 rounded-md px-3 py-2 text-[0.94rem] transition-colors',
+                      isActive(link.path)
+                        ? 'text-ink-strong font-medium'
+                        : 'text-ink-soft hover:text-ink-strong',
+                    ]}
+                    aria-haspopup="true"
+                  >
+                    {link.icon && <Icon name={link.icon} size={15} />}
+                    {link.name}
+                    <Icon name="chevron-down" size={13} class="opacity-60" />
+                  </button>
+                  <div class="invisible absolute left-0 top-full w-44 translate-y-1 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                    <div class="card overflow-hidden p-1.5">
+                      {link.submenu.map((sub) => (
+                        <a
+                          href={sub.path}
+                          class="flex items-center justify-between rounded-sm px-3 py-2 text-sm text-ink-soft transition-colors hover:bg-primary/10 hover:text-primary"
+                          target={sub.external || /^https?:/.test(sub.path) ? '_blank' : undefined}
+                          rel={sub.external ? 'noopener noreferrer' : undefined}
+                        >
+                          {sub.name}
+                          {/^https?:/.test(sub.path) && <Icon name="external" size={13} class="opacity-50" />}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <a
+                  href={link.path}
+                  class:list={[
+                    'flex items-center gap-1.5 rounded-md px-3 py-2 text-[0.94rem] transition-colors',
+                    isActive(link.path)
+                      ? 'text-ink-strong font-medium'
+                      : 'text-ink-soft hover:text-ink-strong',
+                  ]}
+                  target={link.external || /^https?:/.test(link.path) ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  aria-current={isActive(link.path) ? 'page' : undefined}
+                >
+                  {link.icon && <Icon name={link.icon} size={15} />}
+                  {link.name}
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
 
-        await pagefind.options({
-            excerptLength: 20
-        });
+      <!-- 工具按钮 -->
+      <div class="flex items-center gap-1">
+        {
+          site.search.enable && (
+            <button
+              type="button"
+              class="icon-btn"
+              data-search-open
+              aria-label="搜索"
+              title="搜索（Ctrl / ⌘ + K）"
+            >
+              <Icon name="search" size={18} />
+            </button>
+          )
+        }
+        {
+          site.colors.toggle && (
+            <button
+              type="button"
+              class="icon-btn"
+              data-theme-toggle
+              aria-label="切换明暗主题"
+              title="切换明暗主题"
+            >
+              <!-- 用 span 包一层：Icon 自带 inline-block，会盖掉 hidden -->
+              <span class="dark:hidden"><Icon name="sun" size={18} /></span>
+              <span class="hidden dark:block"><Icon name="moon" size={18} /></span>
+            </button>
+          )
+        }
+        <a href="/rss.xml" class="icon-btn hidden sm:inline-grid" aria-label="RSS" title="RSS">
+          <Icon name="rss" size={17} />
+        </a>
+        <button
+          type="button"
+          class="icon-btn md:hidden"
+          data-menu-toggle
+          aria-label="打开菜单"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <Icon name="menu" size={20} />
+        </button>
+      </div>
+    </nav>
+  </div>
 
-        window.pagefind = pagefind;
-
-        document.dispatchEvent(new CustomEvent('pagefindready'));
-        console.log('Pagefind loaded and initialized successfully, event dispatched.');
-    } catch (error) {
-        console.error('Failed to load Pagefind:', error);
-        window.pagefind = {
-            search: () => Promise.resolve({ results: [] }),
-            options: () => Promise.resolve(),
-        };
-        document.dispatchEvent(new CustomEvent('pagefindloaderror'));
-        console.log('Pagefind load error, event dispatched.');
-    }
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadPagefind);
-} else {
-    loadPagefind();
-}
-</script>}
+  <!-- 移动端抽屉 -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 md:hidden"
+    data-mobile-menu
+  >
+    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" data-menu-close></div>
+    <div
+      class="card absolute inset-x-3 top-[calc(var(--navbar-height)+10px)] max-h-[70vh] overflow-y-auto p-2 transition-transform duration-200"
+      role="dialog"
+      aria-modal="true"
+      aria-label="站点菜单"
+    >
+      <div class="mb-1 flex items-center justify-between px-3 pt-1">
+        <span class="section-label">导航</span>
+        <button type="button" class="icon-btn h-8 w-8" data-menu-close aria-label="关闭菜单">
+          <Icon name="close" size={18} />
+        </button>
+      </div>
+      {
+        navbar.links.map((link) => (
+          <a
+            href={link.path}
+            class:list={[
+              'flex items-center gap-3 rounded-md px-4 py-3 text-[0.95rem] transition-colors',
+              isActive(link.path) ? 'text-primary font-medium' : 'text-ink-soft hover:bg-primary/5',
+            ]}
+          >
+            {link.icon && <Icon name={link.icon} size={16} />}
+            {link.name}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>

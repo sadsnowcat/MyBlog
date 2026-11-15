@@ -1,0 +1,92 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+import '../styles/theme.css';
+import BaseHead from '../components/BaseHead.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { site } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  publishedTime?: string;
+  /** 内容页风格：实心悬浮卡片（/blog、/about、/friends 等使用） */
+  solid?: boolean;
+  /** 首页大图使用 fixed 模式：需要给 body 打标记，让卡片更不透明 */
+  fixedBanner?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  type = 'website',
+  noindex = false,
+  publishedTime,
+  solid = false,
+  fixedBanner = false,
+} = Astro.props;
+
+/**
+ * 把 config.ts 里的视觉参数注入成 CSS 变量。
+ * 好处：改 `src/config.ts` 一个字段，全站样式立刻跟着变，
+ * 不需要重建 Tailwind 的 @theme（连接口都省了）。
+ */
+const cssVars = `
+  html[data-theme] {
+    --brand-color: ${site.colors.primary};
+    --content-max-width: ${site.layout.contentMaxWidth};
+    --content-max-width-wide: ${site.layout.contentMaxWidthWide};
+    --sidebar-width: ${site.layout.sidebarWidth};
+    --navbar-width: ${site.navbar.width};
+    --nav-color-1: ${site.navbar.color.left};
+    --nav-color-2: ${site.navbar.color.right};
+    --nav-transparency: ${site.navbar.color.transparency}%;
+    --home-banner-image: url('${site.home.banner.image.light}');
+  }
+  html[data-theme].dark {
+    --home-banner-image: url('${site.home.banner.image.dark}');
+  }
+`;
+---
+
+<!doctype html>
+<html lang={site.lang} data-theme={site.colors.defaultMode}>
+  <head>
+    <BaseHead title={title} description={description} image={image} type={type} noindex={noindex} publishedTime={publishedTime} />
+
+    <!-- 原生 View Transitions：取代原主题的 swup / pjax -->
+    <ClientRouter />
+
+    <style is:inline set:html={cssVars} />
+  </head>
+
+  <body class:list={[solid && 'solid', fixedBanner && 'has-fixed-banner']}>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[110] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+    >
+      跳到正文
+    </a>
+
+    <Navbar />
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+    <SearchDialog />
+    <BackToTop />
+
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

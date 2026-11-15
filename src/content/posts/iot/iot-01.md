@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 01
-published: 2026-08-27T12:04:36.644Z
-description: 构建交叉编译工具链
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 01"
+date: 2026-08-27T12:04:36.644000+00:00
+description: "构建交叉编译工具链"
+categories:
+  - "IoT"
 ---
 
 # IoT 学习笔记 0x01

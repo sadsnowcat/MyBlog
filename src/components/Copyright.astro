@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const url = new URL(`/posts/${post.id}`, site.url).href;
+const year = post.data.date.getFullYear();
+---
+
+{
+  site.post.copyright.enable && post.data.copyright && (
+    <section class="card mt-10 p-5 text-[0.84rem]" aria-label="版权信息">
+      <p class="section-label mb-3 inline-flex items-center gap-1.5">
+        <Icon name="book" size={13} />
+        版权声明
+      </p>
+
+      <div class="grid gap-2 text-ink-muted sm:grid-cols-[auto_1fr] sm:gap-x-4">
+        <span class="text-ink-soft">文章作者</span>
+        <span>{site.author.name}</span>
+
+        <span class="text-ink-soft">文章链接</span>
+        <a href={url} class="break-all text-primary/90 hover:underline">{url}</a>
+
+        <span class="text-ink-soft">版权协议</span>
+        <span>
+          本文采用
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary/90 hover:underline"
+          >
+            {site.post.copyright.license}
+          </a>
+          许可协议，转载请注明出处。
+        </span>
+
+        <span class="text-ink-soft">发表日期</span>
+        <span>{year} 年</span>
+      </div>
+    </section>
+  )
+}

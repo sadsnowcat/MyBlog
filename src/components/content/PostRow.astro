@@ -1,0 +1,91 @@
+---
+import Icon from '../Icon.astro';
+import { site } from '../../config';
+import { postExcerpt, postPath, type Post } from '../../lib/posts';
+import { formatDate, slugify } from '../../lib/utils';
+
+interface Props {
+  post: Post;
+  /** 列表序号（用于左侧 01 / 02 编号） */
+  index: number;
+}
+
+const { post, index } = Astro.props;
+const { data } = post;
+const href = postPath(post);
+const cover = data.cover;
+const excerpt = postExcerpt(post, site.home.excerptLength);
+---
+
+<li>
+  <div class:list={['p-row', !cover && 'is-flat']}>
+    <div class="min-w-0">
+      <h2 class="p-row-title">
+        <span class="p-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <a href={href}>{data.title}</a>
+        {
+          data.sticky && (
+            <span class="p-pin">
+              <Icon name="book" size={11} />
+              置顶
+            </span>
+          )
+        }
+      </h2>
+
+      <p class="p-meta">
+        <span class="p-meta-item">
+          <Icon name="calendar" size={13} />
+          <time datetime={data.date.toISOString()}>{formatDate(data.date, 'YYYY-MM-DD', site.lang)}</time>
+        </span>
+        {
+          data.categories.length > 0 && (
+            <span class="p-meta-item">
+              <Icon name="folder" size={13} />
+              <a class="p-tag" href={`/blog/categories/${slugify(data.categories[0]!)}/`}>
+                {data.categories[0]}
+              </a>
+            </span>
+          )
+        }
+        {
+          data.series.length > 0 && (
+            <span class="p-meta-item">
+              <Icon name="book" size={13} />
+              <a class="p-tag" href={`/blog/series/${slugify(data.series[0]!)}/`}>
+                {data.series[0]}
+              </a>
+            </span>
+          )
+        }
+        {
+          data.tags.length > 0 && (
+            <span class="p-meta-item">
+              <Icon name="tag" size={13} />
+              <span class="inline-flex flex-wrap">
+                <a class="p-tag" href={`/blog/tags/${slugify(data.tags[0]!)}/`}>
+                  #{data.tags[0]}
+                </a>
+                {data.tags.slice(1, 4).map((tag) => (
+                  <a class="p-tag" href={`/blog/tags/${slugify(tag)}/`}>
+                    #{tag}
+                  </a>
+                ))}
+              </span>
+            </span>
+          )
+        }
+      </p>
+
+      <p class="p-excerpt">{excerpt}</p>
+    </div>
+
+    {
+      cover && (
+        <a class="p-thumb" href={href} aria-hidden="true" tabindex="-1">
+          <img src={cover} alt="" loading="lazy" />
+        </a>
+      )
+    }
+  </div>
+</li>

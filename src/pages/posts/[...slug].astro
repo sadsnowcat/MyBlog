@@ -1,136 +1,229 @@
 ---
-import path from "node:path";
-import License from "@components/misc/License.astro";
-import Markdown from "@components/misc/Markdown.astro";
-import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
-import MainGridLayout from "@layouts/MainGridLayout.astro";
-import { getSortedPosts } from "@utils/content-utils";
-import { getDir, getPostUrlBySlug } from "@utils/url-utils";
-import { Icon } from "astro-icon/components";
-import { licenseConfig } from "src/config";
-import ImageWrapper from "../../components/misc/ImageWrapper.astro";
-import PostMetadata from "../../components/PostMeta.astro";
-import { profileConfig, siteConfig } from "../../config";
-import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
 
-export async function getStaticPaths() {
-	const blogEntries = await getSortedPosts();
-	return blogEntries.map((entry) => ({
-		params: { slug: entry.slug },
-		props: { entry },
-	}));
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Toc from '../../components/Toc.astro';
+import Copyright from '../../components/Copyright.astro';
+import PostNav from '../../components/PostNav.astro';
+import PostCard from '../../components/PostCard.astro';
+import Icon from '../../components/Icon.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import {
+  collectTerms,
+  getPosts,
+  postExcerpt,
+  postPath,
+  relatedPosts,
+  seriesOfPost,
+  type Post,
+} from '../../lib/posts';
+import { site } from '../../config';
+import { formatDate, readingTime, slugify } from '../../lib/utils';
+
+// 只在文章页加载 KaTeX 样式（含字体），首页不会被拖累
+import 'katex/dist/katex.min.css';
+import '../../styles/content.css';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts();
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      prev: posts[index + 1],
+      next: posts[index - 1],
+      related: relatedPosts(post, posts, 3),
+    },
+  }));
+};
+
+interface Props {
+  post: Post;
+  prev?: Post;
+  next?: Post;
+  related: Post[];
 }
 
-const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
+const { post, prev, next, related } = Astro.props;
+const { Content, headings } = await render(post);
+const cover = post.data.cover;
 
-const { remarkPluginFrontmatter } = await entry.render();
-
-const jsonLd = {
-	"@context": "https://schema.org",
-	"@type": "BlogPosting",
-	headline: entry.data.title,
-	description: entry.data.description || entry.data.title,
-	keywords: entry.data.tags,
-	author: {
-		"@type": "Person",
-		name: profileConfig.name,
-		url: Astro.site,
-	},
-	datePublished: formatDateToYYYYMMDD(entry.data.published),
-	inLanguage: entry.data.lang
-		? entry.data.lang.replace("_", "-")
-		: siteConfig.lang.replace("_", "-"),
-	// TODO include cover image here
-};
+// 文章页左侧复用首页的作者卡 / 公告 / 菜单，所以需要全站统计
+const allPosts = await getPosts();
+const tagCount = collectTerms(allPosts, 'tags').length;
+const categoryCount = collectTerms(allPosts, 'categories').length;
+const seriesList = seriesOfPost(post, allPosts);
+// 移动端没有右侧栏，目录折叠在正文上方
+const mobileToc = headings.filter(
+  (heading) => heading.depth >= 2 && heading.depth <= site.post.toc.maxDepth,
+);
 ---
-<MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
-    <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
-        <div id="post-container" class:list={["card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",
-            {}
-        ]}>
-            <!-- word count and reading time -->
-            <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation">
-                <div class="flex flex-row items-center">
-                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
-                        <Icon name="material-symbols:notes-rounded"></Icon>
-                    </div>
-                    <div class="text-sm">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
-                </div>
-                <div class="flex flex-row items-center">
-                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
-                        <Icon name="material-symbols:schedule-outline-rounded"></Icon>
-                    </div>
-                    <div class="text-sm">
-                        {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
-                    </div>
-                </div>
-            </div>
 
-            <!-- title -->
-            <div class="relative onload-animation">
-                <div
-                    data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title"
-                    class="transition w-full block font-bold mb-3
-                    text-3xl md:text-[2.25rem]/[2.75rem]
-                    text-black/90 dark:text-white/90
-                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
-                    before:absolute before:top-[0.75rem] before:left-[-1.125rem]
-                ">
-                    {entry.data.title}
-                </div>
-            </div>
+<BaseLayout
+  title={post.data.title}
+  description={postExcerpt(post, 160)}
+  image={cover}
+  type="article"
+  publishedTime={post.data.date.toISOString()}
+  solid
+>
+  <div class="content-container-wide page-shell">
+    <a class="p-back" href="/blog/">
+      <Icon name="arrow-left" size={13} />
+      返回文章
+    </a>
 
-            <!-- metadata -->
-            <div class="onload-animation">
-                <PostMetadata
-                        class="mb-5"
-                        published={entry.data.published}
-                        updated={entry.data.updated}
-                        tags={entry.data.tags}
-                        category={entry.data.category}
-                ></PostMetadata>
-                {!entry.data.image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
-            </div>
+    <div
+      class="grid gap-6 lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] xl:grid-cols-[var(--sidebar-width)_minmax(0,1fr)_var(--toc-width)]"
+    >
+      <Sidebar postCount={allPosts.length} tagCount={tagCount} categoryCount={categoryCount} />
 
-            <!-- always show cover as long as it has one -->
+      <article class="card overflow-hidden">
+        {
+          cover && (
+            <img
+              src={cover}
+              alt=""
+              class="h-[220px] w-full object-cover sm:h-[300px] lg:h-[340px]"
+              loading="eager"
+            />
+          )
+        }
 
-            {entry.data.image &&
-                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
-            }
+        <div class="px-6 pb-8 pt-7 sm:px-10">
+          <p class="p-kicker">{post.data.categories[0] ?? site.blog.kicker}</p>
+          <h1 class="p-article-title">{post.data.title}</h1>
 
+          <div class="p-article-meta">
+            <span class="p-meta-item">
+              <Icon name="calendar" size={13} />
+              <time datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date, 'YYYY-MM-DD', site.lang)}
+              </time>
+            </span>
+            <span class="p-meta-item">
+              <Icon name="clock" size={13} />
+              约 {readingTime(post.body ?? '')} 分钟 · {(post.body ?? '').length} 字
+            </span>
+            {post.data.updated && (
+              <span class="p-meta-item">更新于 {formatDate(post.data.updated, 'YYYY-MM-DD', site.lang)}</span>
+            )}
+            {seriesList.map((series) => (
+              <span class="p-meta-item">
+                <Icon name="book" size={13} />
+                <a class="p-tag" href={`/blog/series/${series.slug}/`}>{series.name}</a>
+                <span class="text-ink-faint">· 第 {series.index} / {series.count} 篇</span>
+              </span>
+            ))}
+            {post.data.tags.map((tag) => (
+              <a class="p-tag" href={`/blog/tags/${slugify(tag)}/`}>#{tag}</a>
+            ))}
+          </div>
 
-            <Markdown class="mb-6 markdown-content onload-animation">
-                <Content />
-            </Markdown>
-
-            {licenseConfig.enable && <License title={entry.data.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
-
+          {
+            site.post.toc.enable && mobileToc.length > 1 && (
+              <details class="mt-6 rounded-md border border-line bg-surface/40 px-4 py-3 xl:hidden">
+                <summary class="flex cursor-pointer items-center gap-1.5 text-[0.84rem] text-ink-soft">
+                  <Icon name="list" size={14} />
+                  目录
+                </summary>
+                <ul class="mt-3 flex flex-col gap-1.5 text-[0.84rem]">
+                  {mobileToc.map((heading) => (
+                    <li style={`padding-left: ${(heading.depth - 2) * 14}px`}>
+                      <a href={`#${heading.slug}`} class="text-ink-muted transition-colors hover:text-primary">
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )
+          }
         </div>
+
+        <div class="markdown-body px-6 pb-8 sm:px-10">
+          <Content />
+        </div>
+
+        <div class="px-6 pb-8 sm:px-10">
+          <Copyright post={post} />
+          <PostNav prev={prev} next={next} />
+        </div>
+      </article>
+
+      <aside class="sticky top-[calc(var(--navbar-height)+20px)] hidden self-start xl:block">
+        <div class="flex flex-col gap-4">
+          {
+            seriesList.slice(0, 1).map((series) => (
+              <div class="card p-4">
+                <p class="section-label mb-1">系列</p>
+                <a
+                  class="mb-2 block font-display text-[0.95rem] text-ink transition-colors hover:text-primary"
+                  href={`/blog/series/${series.slug}/`}
+                >
+                  {series.name}
+                </a>
+                <ol class="flex flex-col gap-1.5">
+                  {series.posts.map((item, index) => (
+                    <li>
+                      <a
+                        href={postPath(item)}
+                        class:list={[
+                          'flex gap-2 text-[0.8rem] leading-snug transition-colors',
+                          item.id === post.id
+                            ? 'text-primary'
+                            : 'text-ink-muted hover:text-primary',
+                        ]}
+                      >
+                        <span class="shrink-0 font-mono text-[0.7rem] opacity-60">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span class="line-clamp-2">{item.data.title}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))
+          }
+
+          <Toc headings={headings} />
+
+          {
+            related.length > 0 && (
+              <div class="card p-4">
+                <p class="section-label mb-2">相关文章</p>
+                <ul class="flex flex-col gap-2">
+                  {related.slice(0, 3).map((item) => (
+                    <li>
+                      <a
+                        href={postPath(item)}
+                        class="line-clamp-2 text-[0.82rem] leading-snug text-ink-muted transition-colors hover:text-primary"
+                      >
+                        {item.data.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+        </div>
+      </aside>
     </div>
 
-    <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
-        <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : "#"}
-           class:list={["w-full font-bold overflow-hidden active:scale-95", {"pointer-events-none": !entry.data.nextSlug}]}>
-            {entry.data.nextSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4" >
-                <Icon name="material-symbols:chevron-left-rounded" class="text-[2rem] text-[var(--primary)]" />
-                <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.data.nextTitle}
-                </div>
-            </div>}
-        </a>
-
-        <a href={entry.data.prevSlug ? getPostUrlBySlug(entry.data.prevSlug) : "#"}
-           class:list={["w-full font-bold overflow-hidden active:scale-95", {"pointer-events-none": !entry.data.prevSlug}]}>
-            {entry.data.prevSlug && <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4">
-                <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
-                    {entry.data.prevTitle}
-                </div>
-                <Icon name="material-symbols:chevron-right-rounded" class="text-[2rem] text-[var(--primary)]" />
-            </div>}
-        </a>
-    </div>
-
-</MainGridLayout>
+    {
+      related.length > 0 && (
+        <section class="mt-12">
+          <h2 class="mb-4 font-display text-lg font-semibold text-ink-strong">继续阅读</h2>
+          <ul class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {related.map((item, index) => (
+              <PostCard post={item} index={index} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>

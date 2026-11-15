@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContentHeader from '../../../components/content/ContentHeader.astro';
+import GroupNav from '../../../components/content/GroupNav.astro';
+import TagCloud from '../../../components/content/TagCloud.astro';
+import { collectTerms, getPosts } from '../../../lib/posts';
+import { site } from '../../../config';
+
+import '../../../styles/content.css';
+
+const posts = await getPosts();
+const tags = collectTerms(posts, 'tags');
+---
+
+<BaseLayout title="标签" description="全部标签" solid>
+  <div class="p-page">
+    <ContentHeader kicker={site.blog.kicker} title={site.blog.title} />
+
+    <GroupNav activeView="tags" />
+
+    <TagCloud tags={tags} />
+  </div>
+</BaseLayout>

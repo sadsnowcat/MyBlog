@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContentHeader from '../../../components/content/ContentHeader.astro';
+import GroupNav from '../../../components/content/GroupNav.astro';
+import { collectSeries, getPosts } from '../../../lib/posts';
+import { formatDate } from '../../../lib/utils';
+import { site } from '../../../config';
+
+import '../../../styles/content.css';
+
+const posts = await getPosts();
+const series = collectSeries(posts);
+---
+
+<BaseLayout title="系列" description="按主题连载的文章集合" solid>
+  <div class="p-page">
+    <ContentHeader kicker={site.blog.kicker} title={site.blog.title} />
+
+    <GroupNav activeView="series" />
+
+    {
+      series.length > 0 ? (
+        <ul class="p-series-grid">
+          {series.map((item) => (
+            <li>
+              <a class="p-series" href={`/blog/series/${item.slug}/`}>
+                <span class="p-series-name">{item.name}</span>
+                <span class="p-series-meta">
+                  {item.count} 篇 · {formatDate(item.first, 'YYYY-MM', site.lang)} →{' '}
+                  {formatDate(item.latest, 'YYYY-MM', site.lang)}
+                </span>
+                <ol class="p-series-list">
+                  {item.posts.slice(0, 4).map((post, index) => (
+                    <li>
+                      <span class="p-series-no">{String(index + 1).padStart(2, '0')}</span>
+                      <span class="truncate">{post.data.title}</span>
+                    </li>
+                  ))}
+                  {item.count > 4 && <li class="p-series-no">…</li>}
+                </ol>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="p-panel-text">还没有系列。</p>
+      )
+    }
+  </div>
+</BaseLayout>

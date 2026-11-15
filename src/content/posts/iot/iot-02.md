@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 02
-published: 2026-08-28T09:38:29.574Z
-description: 引导加载程序 —— U-Boot
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 02"
+date: 2026-08-28T09:38:29.574000+00:00
+description: "引导加载程序 —— U-Boot"
+categories:
+  - "IoT"
 ---
 
 # IoT 学习笔记 0x02

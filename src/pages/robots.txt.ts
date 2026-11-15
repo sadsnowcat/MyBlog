@@ -1,16 +1,18 @@
-import type { APIRoute } from "astro";
+import type { APIRoute } from 'astro';
 
-const robotsTxt = `
-User-agent: *
-Disallow: /_astro/
+import { site } from '../config';
 
-Sitemap: ${new URL("sitemap-index.xml", import.meta.env.SITE).href}
-`.trim();
-
+/** 构建期生成 robots.txt，sitemap 地址跟着 site.url 走 */
 export const GET: APIRoute = () => {
-	return new Response(robotsTxt, {
-		headers: {
-			"Content-Type": "text/plain; charset=utf-8",
-		},
-	});
+  const body = [
+    'User-agent: *',
+    'Allow: /',
+    '',
+    `Sitemap: ${site.url.replace(/\/+$/, '')}/sitemap-index.xml`,
+    '',
+  ].join('\n');
+
+  return new Response(body, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
 };

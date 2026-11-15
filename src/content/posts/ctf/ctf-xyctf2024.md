@@ -1,12 +1,11 @@
 ---
-title: XYCTF2024PWN
-published: 2026-10-11T14:35:25.270Z
-description: 久违地找了个比赛复现
+title: "XYCTF2024PWN"
+date: 2026-10-11T14:35:25.270000+00:00
+description: "久违地找了个比赛复现"
 tags:
-  - pwn
-category: CTF
-draft: false
-lang: zh_CN
+  - "pwn"
+categories:
+  - "CTF"
 ---
 
 # XYCTF2024 PWN 复现

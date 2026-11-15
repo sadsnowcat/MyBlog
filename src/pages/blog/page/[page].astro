@@ -1,0 +1,49 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContentHeader from '../../../components/content/ContentHeader.astro';
+import GroupNav from '../../../components/content/GroupNav.astro';
+import PostRow from '../../../components/content/PostRow.astro';
+import ContentPager from '../../../components/content/ContentPager.astro';
+import { getPosts, paginatePosts, type Post } from '../../../lib/posts';
+import { site } from '../../../config';
+
+import '../../../styles/content.css';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts();
+  const pages = paginatePosts(posts, site.blog.pageSize);
+
+  return pages.slice(1).map((pagePosts, index) => ({
+    params: { page: String(index + 2) },
+    props: { posts: pagePosts, current: index + 2, total: pages.length },
+  }));
+};
+
+interface Props {
+  posts: Post[];
+  current: number;
+  total: number;
+}
+
+const { posts, current, total } = Astro.props;
+---
+
+<BaseLayout title={`第 ${current} 页`} description={site.blog.subtitle} solid>
+  <div class="p-page">
+    <ContentHeader kicker={site.blog.kicker} title={site.blog.title} />
+
+    <GroupNav activeView="posts" />
+
+    <ul class="p-list">
+      {
+        posts.map((post, index) => (
+          <PostRow post={post} index={(current - 1) * site.blog.pageSize + index} />
+        ))
+      }
+    </ul>
+
+    <ContentPager current={current} total={total} base="/blog" />
+  </div>
+</BaseLayout>

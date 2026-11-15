@@ -1,0 +1,98 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config';
+
+const { banner } = site.home;
+const fixed = banner.style === 'fixed';
+const title = banner.title || site.title;
+---
+
+{
+  banner.enable && (
+    <>
+      {/* fixed 模式：整页背后铺一层固定背景 + 一层整屏压暗，滚动到首屏之外时整层一起虚化 */}
+      {fixed && (
+        <>
+          <div class="home-fixed-bg" data-home-bg aria-hidden="true" />
+          <div class="home-fixed-scrim" aria-hidden="true" />
+        </>
+      )}
+
+      <section
+        class="relative isolate flex h-[100svh] min-h-[560px] items-center justify-center overflow-hidden"
+        data-home-banner
+      >
+        {!fixed && (
+          <div
+            class="absolute inset-0 -z-20 bg-cover bg-center"
+            style="background-image: var(--home-banner-image)"
+            aria-hidden="true"
+          />
+        )}
+
+        {/* 非 fixed 模式：section 自己的压暗 + 底部淡出；fixed 模式由整屏遮罩负责 */}
+        {!fixed && <div class="absolute inset-0 -z-10 bg-black/38" aria-hidden="true" />}
+        {!fixed && (
+          <div
+            class="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-b from-transparent to-page"
+            aria-hidden="true"
+          />
+        )}
+
+      <div class="content-container flex flex-col items-center gap-5 pb-14 pt-[var(--navbar-height)] text-center">
+        <h1
+          class="animate-fade-up font-display text-[clamp(2rem,6vw,2.8rem)] font-[600] leading-tight tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.28)]"
+          style="color: var(--home-banner-text-color)"
+        >
+          {title}
+        </h1>
+
+        {
+          banner.subtitles.length > 0 && (
+            <p
+              class="min-h-[1.8em] animate-fade-up text-[clamp(1rem,2.6vw,1.4rem)] font-light leading-snug [text-shadow:0_2px_18px_rgba(0,0,0,0.3)]"
+              style="color: var(--home-banner-text-color); animation-delay: 90ms"
+              data-typing={JSON.stringify(banner.subtitles)}
+              data-typing-speed={banner.typingSpeed}
+            >
+              <span data-typing-target />
+              <span class="ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.12em] animate-blink bg-current align-middle" />
+            </p>
+          )
+        }
+
+        {
+          banner.social && site.social.length > 0 && (
+            <div
+              class="mt-2 flex animate-fade-up items-center gap-2 rounded-xl border border-white/30 bg-black/20 px-3 py-2 backdrop-blur-md"
+              style="animation-delay: 160ms"
+            >
+              {site.social.map((item) => (
+                <a
+                  href={item.url}
+                  class="grid h-9 w-9 place-items-center rounded-md text-white/85 transition-colors hover:bg-white/15 hover:text-white"
+                  aria-label={item.name}
+                  title={item.name}
+                  target={/^https?:/.test(item.url) ? '_blank' : undefined}
+                  rel={/^https?:/.test(item.url) ? 'noopener noreferrer' : undefined}
+                >
+                  <Icon name={item.icon} size={17} />
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- 向下滚动提示 -->
+      <a
+        href="#main-content"
+        class="absolute bottom-6 left-1/2 grid h-9 w-9 -translate-x-1/2 place-items-center rounded-full border border-white/20 bg-black/25 text-white/85 backdrop-blur-sm transition-colors hover:bg-black/40 hover:text-white"
+        aria-label="向下滚动"
+      >
+        <Icon name="chevron-down" size={22} class="animate-bounce" />
+      </a>
+      </section>
+    </>
+  )
+}

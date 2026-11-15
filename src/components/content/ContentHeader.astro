@@ -1,0 +1,15 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+}
+
+const { kicker = 'Notebook archive', title } = Astro.props;
+---
+
+<header class="p-hero">
+  <div>
+    <p class="p-kicker">{kicker}</p>
+    <h1 class="p-title">{title}</h1>
+  </div>
+</header>

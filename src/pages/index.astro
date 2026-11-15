@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeContent from '../components/HomeContent.astro';
+import HomeBanner from '../components/HomeBanner.astro';
+import { getPosts, paginatePosts } from '../lib/posts';
+import { site } from '../config';
+
+import '../styles/content.css';
+
+const posts = await getPosts();
+const pages = paginatePosts(posts, site.home.pageSize);
+const total = pages.length;
+---
+
+<BaseLayout solid fixedBanner={site.home.banner.enable && site.home.banner.style === 'fixed'}>
+  <HomeBanner />
+  <HomeContent posts={pages[0]!} allPosts={posts} current={1} total={total} />
+</BaseLayout>

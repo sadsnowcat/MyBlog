@@ -20,12 +20,12 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-.vercel
+# jetbrains setting folder
+.idea/
 
-package-lock.json
-bun.lockb
-yarn.lock
+# local reference: upstream hexo theme (read-only study material)
+.reference/
 
-# ide
-.idea
-*.iml
+# local scratch: npm cache / screenshot tooling (playwright browser)
+.npm-cache/
+.tooling/

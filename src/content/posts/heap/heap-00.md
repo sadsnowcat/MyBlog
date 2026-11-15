@@ -1,13 +1,12 @@
 ---
-title: 从零开始的堆利用 00
-published: 2026-07-22T03:41:08.957Z
-description: 堆利用的第一步，认识堆
+title: "从零开始的堆利用 00"
+date: 2026-07-22T03:41:08.957000+00:00
+description: "堆利用的第一步，认识堆"
 tags:
-  - pwn
-  - glibc
-category: Heap
-draft: false
-lang: zh_CN
+  - "pwn"
+  - "glibc"
+categories:
+  - "Heap"
 ---
 
 # 堆利用基础

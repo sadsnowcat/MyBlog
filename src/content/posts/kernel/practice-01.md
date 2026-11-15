@@ -1,13 +1,11 @@
 ---
-title: Kernel Pwn 练习小记 01
-published: 2026-10-26
-description: '第一次 Kernel Pwn '
-image: ''
+title: "Kernel Pwn 练习小记 01"
+date: 2026-10-26T00:00:00
+description: "第一次 Kernel Pwn "
 tags:
-  - pwn
-category: Kernel
-draft: false
-lang: zh_CN
+  - "pwn"
+categories:
+  - "Kernel"
 ---
 
 > 相比起来，Kernel Pwn 的入门不算很轻松，~~（至少对笔者是这样的）~~

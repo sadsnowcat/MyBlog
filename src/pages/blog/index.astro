@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentHeader from '../../components/content/ContentHeader.astro';
+import GroupNav from '../../components/content/GroupNav.astro';
+import PostRow from '../../components/content/PostRow.astro';
+import ContentPager from '../../components/content/ContentPager.astro';
+import { getPosts, paginatePosts } from '../../lib/posts';
+import { site } from '../../config';
+
+import '../../styles/content.css';
+
+const posts = await getPosts();
+const pages = paginatePosts(posts, site.blog.pageSize);
+const pagePosts = pages[0]!;
+---
+
+<BaseLayout title="文章" description={site.blog.subtitle} solid>
+  <div class="p-page">
+    <ContentHeader kicker={site.blog.kicker} title={site.blog.title} />
+
+    <GroupNav activeView="posts" />
+
+    <ul class="p-list">
+      {pagePosts.map((post, index) => <PostRow post={post} index={index} />)}
+    </ul>
+
+    <ContentPager current={1} total={pages.length} base="/blog" />
+  </div>
+</BaseLayout>

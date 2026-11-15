@@ -1,121 +1,371 @@
-.custom-md {
-    h1 {
-        @apply text-3xl;
-    }
+/* ==========================================================================
+   Markdown 正文排版
+   用一份 CSS 统一描述渲染结果，而不是给每个标签挂 Tailwind 类 ——
+   想调正文观感时只改这个文件。
+   ========================================================================== */
 
-    h1, h2, h3, h4, h5, h6 {
-        .anchor {
-            @apply transition -m-0.5 ml-[0.2ch] p-0.5 select-none opacity-0 no-underline !important;
+.markdown-body {
+  --md-font-size: 16px;
+  --md-line-height: 1.8;
+  font-size: var(--md-font-size);
+  line-height: var(--md-line-height);
+  color: var(--color-ink);
+  overflow-wrap: break-word;
+}
 
-            .anchor-icon {
-                @apply mx-[0.45ch] !important;
-            }
-        }
+.markdown-body > :first-child {
+  margin-top: 0;
+}
 
-        &:hover {
-            .anchor {
-                @apply opacity-100 !important;
-            }
-        }
-    }
+.markdown-body p {
+  margin: 1.1em 0;
+}
 
-    a:not(.no-styling) {
-        @apply relative bg-none link font-medium text-[var(--primary)]
-        underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4;
-        box-decoration-break: clone;
-        -webkit-box-decoration-break: clone;
-        display: inline-block;
-    
-        &:hover, &:active {
-            @apply decoration-transparent;
-            background: var(--btn-plain-bg-hover);
-            border-bottom: 1px dashed var(--link-hover);
-            text-decoration: none;
-        }
-    }
+/* ---------------------------------------------------------------- 标题 */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--color-ink-strong);
+  scroll-margin-top: calc(var(--navbar-height) + 24px);
+  margin-bottom: 0.7em;
+}
 
-    code {
-        @apply bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md overflow-hidden;
+.markdown-body h1 {
+  margin-top: 2.6em;
+  font-size: 2em;
+}
+.markdown-body h2 {
+  margin-top: 2.2em;
+  font-size: 1.55em;
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--color-line);
+}
+.markdown-body h3 {
+  margin-top: 1.9em;
+  font-size: 1.28em;
+}
+.markdown-body h4 {
+  margin-top: 1.6em;
+  font-size: 1.1em;
+}
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 1.4em;
+  font-size: 1em;
+  color: var(--color-ink-soft);
+}
 
-        font-family: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-        &:before {
-            content:none;
-        }
-        &:after {
-            content:none;
-        }
+/* 标题旁的锚点链接（由 rehype 自动生成的 id 驱动，这里只做视觉） */
+.markdown-body .heading-anchor {
+  margin-left: 0.4em;
+  color: var(--color-ink-faint);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 0.8em;
+}
+.markdown-body h2:hover .heading-anchor,
+.markdown-body h3:hover .heading-anchor,
+.markdown-body h4:hover .heading-anchor {
+  opacity: 1;
+}
 
-        counter-reset: line;
-        span.line {
-            &:before {
-                @apply text-white/25 mr-4 w-4 inline-block;
-                content: counter(line);
-                counter-increment: line;
-                direction: rtl;
-            }
-            &:last-child:empty, &:last-child:has(> span:empty:only-child) {
-                display: none;
-            }
-        }
-    }
+/* ---------------------------------------------------------------- 链接 */
+.markdown-body a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  transition: text-decoration-color 0.2s ease;
+}
+.markdown-body a:hover {
+  text-decoration-color: var(--color-primary);
+}
 
-    .copy-btn {
-        all: initial;
-        @apply btn-regular-dark opacity-0 shadow-lg shadow-black/50 absolute active:scale-90 h-8 w-8 top-3 right-3 text-sm rounded-lg transition-all ease-in-out z-20 cursor-pointer;
-    }
-    .frame:hover .copy-btn {
-        opacity: 1;
-    }
+/* ---------------------------------------------------------------- 列表 */
+.markdown-body ul,
+.markdown-body ol {
+  margin: 1.1em 0;
+  padding-left: 1.5em;
+}
+.markdown-body ul {
+  list-style: disc;
+}
+.markdown-body ul ul {
+  list-style: circle;
+}
+.markdown-body ol {
+  list-style: decimal;
+}
+.markdown-body li {
+  margin: 0.45em 0;
+}
+.markdown-body li::marker {
+  color: color-mix(in srgb, var(--primary-color) 70%, var(--color-ink-muted));
+}
+.markdown-body li > ul,
+.markdown-body li > ol {
+  margin: 0.4em 0;
+}
+.markdown-body input[type='checkbox'] {
+  margin-right: 0.5em;
+  accent-color: var(--primary-color);
+  transform: translateY(1px);
+}
+.markdown-body li:has(> input[type='checkbox']) {
+  list-style: none;
+  margin-left: -1.2em;
+}
 
-    .copy-btn-icon {
-        @apply absolute top-1/2 left-1/2 transition -translate-x-1/2 -translate-y-1/2 w-4 h-4 fill-white pointer-events-none;
-    }
-    .copy-btn .copy-icon {
-        @apply opacity-100 fill-white dark:fill-white/75;
-    }
-    .copy-btn.success .copy-icon {
-        @apply opacity-0 fill-[var(--deep-text)]
-    }
-    .copy-btn .success-icon {
-        @apply opacity-0 fill-white;
-    }
-    .copy-btn.success .success-icon {
-        @apply opacity-100
-    }
+/* ---------------------------------------------------------------- 引用 */
+.markdown-body blockquote {
+  position: relative;
+  margin: 1.6em 0;
+  padding: 0.9em 1.2em 0.9em 1.4em;
+  color: var(--color-ink-soft);
+  background: color-mix(in srgb, var(--color-surface-2) 70%, transparent);
+  border-radius: var(--radius-md);
+  border-left: 3px solid color-mix(in srgb, var(--primary-color) 60%, transparent);
+}
+.markdown-body blockquote > :first-child {
+  margin-top: 0;
+}
+.markdown-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+.markdown-body blockquote cite {
+  display: block;
+  margin-top: 0.6em;
+  font-size: 0.85em;
+  font-style: normal;
+  color: var(--color-ink-muted);
+}
 
-    .expressive-code {
-        @apply my-4;
-        ::selection {
-            @apply bg-[var(--codeblock-selection)];
-        }
-    }
+/* ---------------------------------------------------------------- 表格 */
+.markdown-body table {
+  width: 100%;
+  margin: 1.6em 0;
+  border-collapse: collapse;
+  font-size: 0.94em;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--color-line);
+}
+.markdown-body thead {
+  background: var(--color-surface);
+}
+.markdown-body th,
+.markdown-body td {
+  padding: 0.6em 0.9em;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+}
+.markdown-body th {
+  font-weight: 600;
+  color: var(--color-ink-strong);
+}
+.markdown-body tbody tr:last-child td {
+  border-bottom: none;
+}
+.markdown-body tbody tr:hover {
+  background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+}
 
+/* ---------------------------------------------------------------- 图片 */
+.markdown-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.6em auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-flat);
+}
+.markdown-body figure {
+  margin: 1.8em 0;
+}
+.markdown-body figcaption {
+  margin-top: 0.6em;
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--color-ink-muted);
+}
+.markdown-body img[data-zoomable] {
+  cursor: zoom-in;
+}
 
-    ul, ol {
-        li::marker {
-            @apply text-[var(--primary)];
-        }
-    }
+/* ---------------------------------------------------------------- 分隔线 */
+.markdown-body hr {
+  height: 1px;
+  margin: 2.4em 0;
+  border: none;
+  background: linear-gradient(to right, transparent, var(--color-line) 20%, var(--color-line) 80%, transparent);
+}
 
-    blockquote {
-        @apply not-italic border-transparent relative;
-        font-weight: inherit;
+/* ---------------------------------------------------------------- 行内代码 */
+.markdown-body :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 0.18em 0.42em;
+  margin-inline: 0.1em;
+  border-radius: var(--radius-xs);
+  color: color-mix(in srgb, var(--primary-color) 85%, var(--color-ink));
+  background: color-mix(in srgb, var(--primary-color) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 14%, transparent);
+  white-space: break-spaces;
+}
 
-        &:before {
-            @apply content-[''] absolute -left-1 block transition bg-[var(--btn-regular-bg)] h-full w-1 rounded-full;
-        }
+/* ---------------------------------------------------------------- 代码块 */
+.markdown-body .code-block {
+  position: relative;
+  margin: 1.6em 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-flat);
+  background: var(--shiki-light-bg, #fafafa);
+}
+.dark .markdown-body .code-block {
+  background: var(--shiki-dark-bg, #24292e);
+}
 
-        /* Remove the double quotes from default styles */
-        p:before, p:after {
-            @apply content-none;
-        }
+.markdown-body pre {
+  margin: 0;
+  padding: 1em 1.1em;
+  overflow-x: auto;
+  font-size: 0.87em;
+  line-height: 1.65;
+  font-family: var(--font-mono);
+  tab-size: 2;
+}
 
-    }
+/* Shiki 双主题：defaultColor: false 时颜色以 CSS 变量形式输出 */
+.markdown-body .astro-code,
+.markdown-body .astro-code span {
+  color: var(--shiki-light);
+  background-color: transparent;
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+.dark .markdown-body .astro-code,
+.dark .markdown-body .astro-code span {
+  color: var(--shiki-dark);
+  background-color: transparent;
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
 
-    .katex-display-container {
-        max-width: 100%;
-        overflow-x: auto;
-        margin: 1em 0;
-    }
-    
+/* 代码块顶栏：语言名 + 复制按钮 */
+.code-block-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45em 0.7em 0.45em 1.1em;
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  border-bottom: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-surface) 65%, transparent);
+}
+.code-copy {
+  display: inline-grid;
+  place-items: center;
+  height: 22px;
+  padding-inline: 0.55em;
+  border-radius: var(--radius-xs);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+.code-copy:hover {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+.code-copy[data-copied='true'] {
+  color: #22c55e;
+}
+
+/* ---------------------------------------------------------------- mermaid */
+.markdown-body .mermaid-block {
+  display: flex;
+  justify-content: center;
+  margin: 1.6em 0;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-flat);
+  overflow-x: auto;
+}
+.markdown-body .mermaid-block svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------------------------------------------------------------- 数学公式 */
+.markdown-body .katex-display {
+  margin: 1.4em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.2em 0;
+}
+
+/* ---------------------------------------------------------------- 脚注 */
+.markdown-body .footnotes {
+  margin-top: 3em;
+  padding-top: 1.2em;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.9em;
+  color: var(--color-ink-muted);
+}
+
+/* ---------------------------------------------------------------- 提示块 */
+.markdown-body .callout {
+  margin: 1.6em 0;
+  padding: 0.9em 1.1em;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+  background: color-mix(in srgb, var(--primary-color) 7%, transparent);
+  color: var(--color-ink-soft);
+}
+.markdown-body .callout > :first-child {
+  margin-top: 0;
+}
+.markdown-body .callout > :last-child {
+  margin-bottom: 0;
+}
+
+/* 图片放大查看器 */
+.iv-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 3vmin;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.2s ease both;
+  cursor: zoom-out;
+}
+.iv-overlay img {
+  max-width: 94vw;
+  max-height: 92vh;
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: fade-in 0.25s ease both;
 }

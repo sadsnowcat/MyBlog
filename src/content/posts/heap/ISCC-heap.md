@@ -1,13 +1,11 @@
 ---
-title: ISCC Heap
-published: 2026-09-02T09:39:16.988Z
-description: 一次简单的堆利用
+title: "ISCC Heap"
+date: 2026-09-02T09:39:16.988000+00:00
+description: "一次简单的堆利用"
 tags:
-  - pwn
-category: Heap
-draft: false
-lang: zh_CN
-# image: 
+  - "pwn"
+categories:
+  - "Heap"
 ---
 
 # ISCC PWN test

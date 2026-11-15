@@ -1,14 +1,12 @@
 ---
-title: BaseCTF2024PWN
-published: 2026-05-10T19:00:00+08:00
-description: 复现了BaseCTF2024部分题目
+title: "BaseCTF2024PWN"
+date: 2026-05-10T19:00:00+08:00
+description: "复现了BaseCTF2024部分题目"
 tags:
-  - pwn
-category: CTF
-draft: false
-lang: zh_CN
+  - "pwn"
+categories:
+  - "CTF"
 ---
-
 
 复现地址 [https://gz.imxbt.cn/games/13](https://gz.imxbt.cn/games/13)
 [官方 WP](https://j0zr0js7k7j.feishu.cn/docx/MS06dyLGRoHBfzxGPF1cz0VhnGh)

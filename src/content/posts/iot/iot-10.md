@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 10
-published: 2026-09-25T04:07:48.460Z
-description: 应用程序开发
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 10"
+date: 2026-09-25T04:07:48.460000+00:00
+description: "应用程序开发"
+categories:
+  - "IoT"
 ---
 
 # iot 学习笔记 10

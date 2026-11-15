@@ -1,0 +1,576 @@
+/* ==========================================================================
+   Redefine for Astro —— 设计令牌与全局样式
+   --------------------------------------------------------------------------
+   分层约定（想改东西时按这个顺序找）：
+     1. @theme        → 设计令牌，编译成 Tailwind 工具类（text-ink / shadow-card …）
+     2. :root / .dark → 亮色、暗色两套 CSS 变量（改配色只动这里）
+     3. base          → 元素级默认样式
+     4. components    → 复用型语义类（.card / .chip …）
+   正文排版（Markdown 渲染结果）单独放在 markdown.css。
+   ========================================================================== */
+
+@import 'tailwindcss';
+@import './fonts.css';
+@import './markdown.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* --------------------------------------------------------------------------
+   1. 设计令牌
+   注意：这里刻意写成 var(--xxx)，这样暗色模式只需覆盖 --xxx，
+   所有工具类（bg-page / text-ink / border-line …）自动跟着变。
+   -------------------------------------------------------------------------- */
+@theme {
+  /* 配色 —— 语义化命名，比 Redefine 原版的 first/second/third-text-color 更好记 */
+  --color-primary: var(--primary-color);
+  /* 实心背景（如分页当前页）始终用原始品牌色 */
+  --color-brand: var(--brand-color, #a31f34);
+  --color-page: var(--background-color);
+  --color-page-translucent: var(--background-color-transparent);
+  --color-surface: var(--second-background-color);
+  --color-surface-2: var(--third-background-color);
+  --color-ink: var(--default-text-color);
+  --color-ink-strong: var(--first-text-color);
+  --color-ink-soft: var(--second-text-color);
+  --color-ink-muted: var(--third-text-color);
+  --color-ink-faint: var(--fourth-text-color);
+  --color-line: var(--border-color);
+  --color-link: var(--link-color);
+  --color-selection: var(--selection-color);
+
+  /* 圆角：沿用 Redefine 的数值，rounded-lg 就是 18px */
+  --radius-xs: 4px;
+  --radius-sm: 9px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 48px;
+
+  /* 阴影：原主题的 redefine-box-shadow 系列 */
+  --shadow-card: 0 6px 24px 0 var(--shadow-color-2), 0 0 0 1px var(--shadow-color-1);
+  --shadow-card-hover:
+    0 8px 28px 0 var(--shadow-color-2), 0 0 0 1px var(--shadow-color-1),
+    0 0 0 1px inset var(--shadow-color-1);
+  --shadow-flat: 0 1px 4px 0 var(--shadow-color-2), 0 0 0 1px var(--shadow-color-1);
+  --shadow-flat-hover:
+    0 1px 4px 0 var(--shadow-color-2), 0 0 0 1px var(--shadow-color-1),
+    0 0 0 1px inset var(--shadow-color-1);
+
+  /* 字体：全站统一用中文圆体，缺字回退系统字体 */
+  --font-sans:
+    'ChillRoundM', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC',
+    system-ui, sans-serif;
+  /* 等宽字体后面挂上中文字体：代码块里的中文注释不会变成方块 */
+  --font-mono:
+    'Monaco', 'Geist Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', monospace;
+  --font-display: 'ChillRoundM', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui,
+    sans-serif;
+
+  /* 版式 */
+  --text-base: 16px;
+  --leading-base: 1.65;
+
+  /* 动效 */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-up: fade-up 0.5s var(--ease-out-soft) both;
+  --animate-fade-in: fade-in 0.4s var(--ease-out-soft) both;
+  --animate-blink: blink 1s step-end infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. 亮色 / 暗色变量
+   -------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    /* --brand-color 由 BaseLayout 从 src/config.ts 注入；
+       --primary-color 是它在当前模式下的“可读版本” */
+    --primary-color: var(--brand-color, #a31f34);
+    --background-color: #ffffff;
+    --background-color-transparent: rgba(255, 255, 255, 0.6);
+    --background-color-transparent-80: rgba(255, 255, 255, 0.8);
+    --second-background-color: #fafafa;
+    --third-background-color: #f7f7f7;
+
+    --default-text-color: #373d3f;
+    --first-text-color: #26292b;
+    --second-text-color: #2f3335;
+    --third-text-color: #6a7275;
+    --fourth-text-color: #d3d3d3;
+    --invert-text-color: #bebec6;
+    --link-color: #26292b;
+
+    --border-color: rgba(0, 0, 0, 0.08);
+    --selection-color: color-mix(in srgb, var(--primary-color) 25%, transparent);
+    --shadow-color-1: rgba(0, 0, 0, 0.08);
+    --shadow-color-2: rgba(0, 0, 0, 0.05);
+
+    --scrollbar-color: #c1c1c1;
+    --scrollbar-color-hover: #a1a1a1;
+    --scroll-bar-bg-color: #fafafa;
+
+    /* 页面背景光晕 */
+    --page-glow-1: color-mix(in srgb, var(--primary-color) 6%, transparent);
+    --page-glow-2: color-mix(in srgb, var(--primary-color) 4%, transparent);
+
+    /* 布局 */
+    --content-max-width: 1000px;
+    --sidebar-width: 210px;
+    --toc-width: 250px;
+    --navbar-height: 70px;
+    --navbar-width: 1200px;
+    --nav-color-1: #f78736;
+    --nav-color-2: #367df7;
+    --nav-transparency: 35%;
+
+    /* 首页大图 */
+    --home-banner-image: url('/images/banner-light.svg');
+    --home-banner-text-color: #ffffff;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    /* 深色背景上把主色提亮，否则红字贴在深灰上对比度不够 */
+    --primary-color: color-mix(in srgb, var(--brand-color, #a31f34) 62%, #ffffff);
+
+    /* 偏蓝的深灰，而不是中性灰：色相统一在 215° 附近 */
+    --background-color: #151a23;
+    --background-color-transparent: rgba(21, 26, 35, 0.45);
+    --background-color-transparent-80: rgba(21, 26, 35, 0.82);
+    --second-background-color: #1a202b;
+    --third-background-color: #1f2632;
+
+    --default-text-color: #c3cbd9;
+    --first-text-color: #e9eef7;
+    --second-text-color: #d7dfec;
+    --third-text-color: #909cb0;
+    --fourth-text-color: #48525f;
+    --invert-text-color: #151a23;
+    --link-color: #d7dfec;
+
+    --border-color: rgba(255, 255, 255, 0.09);
+    --shadow-color-1: rgba(255, 255, 255, 0.07);
+    --shadow-color-2: rgba(255, 255, 255, 0.045);
+
+    --scrollbar-color: #7f8b9e;
+    --scrollbar-color-hover: #9aa6b8;
+    --scroll-bar-bg-color: #1f2632;
+
+    --page-glow-1: rgba(74, 111, 175, 0.16);
+    --page-glow-2: rgba(46, 74, 122, 0.14);
+
+    --home-banner-image: url('/images/banner-dark.svg');
+    --home-banner-text-color: #d6e0ee;
+
+    color-scheme: dark;
+  }
+
+  /* 亮暗切换的过渡（尊重 prefers-reduced-motion） */
+  @media (prefers-reduced-motion: no-preference) {
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease !important;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. 元素级样式
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navbar-height) + 24px);
+    /* 页面高度不同时保留滚动条位置，切换页面不会整页左右抖一下 */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-base);
+    color: var(--color-ink);
+    background-color: var(--background-color);
+    /* 背景一层极淡的径向渐变，让玻璃拟态卡片有东西可透 */
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, var(--page-glow-1), transparent),
+      radial-gradient(ellipse 60% 50% at 100% 100%, var(--page-glow-2), transparent);
+    background-attachment: fixed;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--selection-color);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* 滚动条 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-color) var(--scroll-bar-bg-color);
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: var(--scroll-bar-bg-color);
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-color);
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-color-hover);
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    box-shadow: 0 1px 0 var(--color-line);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. 复用组件类
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* 内容容器：对应原主题 main-content-width 80% / 平板 86% / 手机 90% */
+  .content-container {
+    width: 90%;
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+  }
+  @media (min-width: 641px) {
+    .content-container {
+      width: 86%;
+    }
+  }
+  @media (min-width: 1024px) {
+    .content-container {
+      width: 80%;
+    }
+  }
+
+  /* 文章页宽版容器：左侧栏 + 正文 + 右侧目录 */
+  .content-container-wide {
+    width: 90%;
+    max-width: var(--content-max-width-wide);
+    margin-inline: auto;
+  }
+  @media (min-width: 641px) {
+    .content-container-wide {
+      width: 92%;
+    }
+  }
+  @media (min-width: 1024px) {
+    .content-container-wide {
+      width: 96%;
+    }
+  }
+
+  /* 非首页正文区：给固定导航栏留出空间 */
+  .page-shell {
+    padding-top: calc(var(--navbar-height) + 2.25rem);
+    padding-bottom: 1rem;
+  }
+
+  /* 移动端菜单开关状态（由 site.ts 切换 .is-open） */
+  [data-mobile-menu] {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
+  }
+  [data-mobile-menu].is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  [data-mobile-menu] > .card {
+    transform: translateY(-10px) scale(0.98);
+    transform-origin: top center;
+    transition: transform 0.22s var(--ease-out-soft);
+  }
+  [data-mobile-menu].is-open > .card {
+    transform: none;
+  }
+
+  /* 玻璃卡片：整个主题最核心的视觉单元 */
+  .card {
+    position: relative;
+    background: var(--color-page-translucent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-hover {
+    transition:
+      box-shadow 0.3s var(--ease-out-soft),
+      transform 0.3s var(--ease-out-soft);
+  }
+  .card-hover:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+  .card-hover-lift:hover {
+    transform: translateY(-3px);
+  }
+
+  /* 小标签：分类 / 标签 / 置顶 */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.2em 0.7em;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    border-radius: var(--radius-md);
+    color: var(--color-ink-muted);
+    background: color-mix(in srgb, var(--color-surface-2) 80%, transparent);
+    border: 1px solid var(--color-line);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .chip:hover {
+    color: var(--color-primary);
+    border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+
+  /* 图标按钮（导航栏、文章工具栏共用） */
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    color: var(--color-ink-soft);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s var(--ease-out-soft);
+  }
+  .icon-btn:hover {
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+
+  /* 区块小标题，如侧栏的「公告」 */
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  /* 页面主标题（归档 / 分类 / 标签页） */
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-ink-strong);
+  }
+
+  /* 顶部导航栏背景：左边一种颜色、右边一种颜色 + 透明度 */
+  .navbar-gradient {
+    background-image: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--nav-color-1) var(--nav-transparency), transparent) 0%,
+      color-mix(in srgb, var(--nav-color-2) var(--nav-transparency), transparent) 100%
+    );
+  }
+
+  /* 首页 fixed 模式：整页背后铺一张固定背景图 */
+  .home-fixed-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image: var(--home-banner-image);
+    background-position: center;
+    background-size: cover;
+    /* 放大一点，模糊后边缘不会露出底色 */
+    transform: scale(1.08);
+    filter: blur(0px);
+    transition: filter 0.3s ease;
+    will-change: filter;
+    pointer-events: none;
+  }
+
+  /* 整屏压暗层：固定在视口上，随滚动不会出现"上半屏暗、下半屏亮"的分界 */
+  .home-fixed-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+  }
+
+  .dark .home-fixed-scrim {
+    background: rgba(0, 0, 0, 0.38);
+  }
+
+  /* fixed 模式下卡片要更实一点，否则整页都是背景图会太花 */
+  body.has-fixed-banner {
+    --background-color-transparent: var(--background-color-transparent-80);
+  }
+
+  /* 固定背景之上才是内容层 */
+  body.has-fixed-banner main,
+  body.has-fixed-banner footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* fixed 模式下页脚给一个半透明底，保证文字在虚化背景上可读 */
+  body.has-fixed-banner footer {
+    background-color: var(--color-page-translucent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-fixed-bg {
+      transition: none;
+    }
+  }
+
+  /* 竖向时间线（归档页） */
+  .timeline {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.32rem;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--primary-color) 55%, transparent),
+      var(--color-line) 70%,
+      transparent
+    );
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -1.6rem;
+    top: 0.55rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--color-page);
+    border: 2px solid color-mix(in srgb, var(--primary-color) 60%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 12%, transparent);
+  }
+}
+
+@layer utilities {
+  /* 文章目录当前项高亮（放在 utilities 层，才能盖过 border-transparent 工具类） */
+  [data-toc-link].is-active {
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
+    background: color-mix(in srgb, var(--primary-color) 6%, transparent);
+  }
+
+
+  /* 链接下划线动画 */
+  .link-underline {
+    background-image: linear-gradient(var(--color-primary), var(--color-primary));
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s var(--ease-out-soft);
+  }
+  .link-underline:hover {
+    background-size: 100% 1.5px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. View Transitions（替代 swup 的页面过渡）
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: fade-in 0.18s ease reverse both;
+  }
+  ::view-transition-new(root) {
+    animation: fade-in 0.24s ease both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

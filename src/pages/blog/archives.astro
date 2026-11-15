@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentHeader from '../../components/content/ContentHeader.astro';
+import GroupNav from '../../components/content/GroupNav.astro';
+import { getPosts, groupByYear, postPath } from '../../lib/posts';
+import { site } from '../../config';
+
+import '../../styles/content.css';
+
+const posts = await getPosts();
+const years = groupByYear(posts);
+
+const formatMonthDay = (date: Date) =>
+  `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+---
+
+<BaseLayout title="归档" description="按年份浏览全部文章" solid>
+  <div class="p-page">
+    <ContentHeader kicker={site.blog.kicker} title={site.blog.title} />
+
+    <GroupNav activeView="archives" />
+
+    <div class="p-years">
+      {
+        years.map((year) => (
+          <section>
+            <div class="p-year-head">
+              <h2 class="p-year-number">{year.year}</h2>
+              <span class="p-year-count">{year.total} 篇文章</span>
+            </div>
+
+            {year.months.flatMap((month) =>
+              month.posts.map((post) => (
+                <a class="p-archive-row" href={postPath(post)}>
+                  <span class="p-archive-date">{formatMonthDay(post.data.date)}</span>
+                  <span class="p-archive-title">{post.data.title}</span>
+                  <span class="p-archive-tags">
+                    {post.data.tags.slice(0, 4).map((tag) => (
+                      <span class="p-tag">#{tag}</span>
+                    ))}
+                  </span>
+                </a>
+              )),
+            )}
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 08
-published: 2026-09-23T15:41:19.342Z
-description: 第三方库与应用程序
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 08"
+date: 2026-09-23T15:41:19.342000+00:00
+description: "第三方库与应用程序"
+categories:
+  - "IoT"
 ---
 
 # IoT 学习笔记 0x08

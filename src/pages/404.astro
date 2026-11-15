@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+import '../styles/content.css';
+
+const links = [
+  { name: '返回首页', path: '/', icon: 'home' as const },
+  { name: '全部文章', path: '/blog', icon: 'book' as const },
+  { name: '标签索引', path: '/blog/tags', icon: 'tag' as const },
+  { name: '关于本站', path: '/about', icon: 'user' as const },
+];
+---
+
+<BaseLayout title="页面不存在" description="你访问的页面不存在" noindex solid>
+  <div class="p-page">
+    <div class="p-notfound">
+      <p class="p-kicker">404 · Not found</p>
+      <h1 class="p-title">这个页面走丢了</h1>
+      <p class="p-subtitle" style="max-width: 46ch">
+        地址可能拼错了，或者文章已经被移动。下面这些入口应该能帮到你。
+      </p>
+
+      <div class="p-notfound-links">
+        {
+          links.map((link) => (
+            <a class="p-back" href={link.path} style="margin-bottom: 0">
+              <Icon name={link.icon} size={14} />
+              {link.name}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

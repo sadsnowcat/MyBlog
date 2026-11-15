@@ -1,0 +1,55 @@
+---
+import Icon from '../Icon.astro';
+import { collectTerms, getPosts } from '../../lib/posts';
+
+interface Props {
+  activeView: 'posts' | 'tags' | 'archives' | 'series';
+  /** 当前选中的分类名（不是 slug） */
+  activeCategory?: string;
+}
+
+const { activeView, activeCategory } = Astro.props;
+
+const posts = await getPosts();
+const categories = collectTerms(posts, 'categories');
+---
+
+<nav class="p-nav" aria-label="文章浏览分组">
+  <div class="p-topics">
+    <a class:list={['p-chip', activeView === 'posts' && !activeCategory && 'is-active']} href="/blog/">
+      <span>全部文章</span>
+      <b>{posts.length}</b>
+    </a>
+    {
+      categories.map((category) => (
+        <a
+          class:list={[
+            'p-chip',
+            activeView === 'posts' && activeCategory === category.name && 'is-active',
+          ]}
+          href={`/blog/categories/${category.slug}/`}
+        >
+          <span>{category.name}</span>
+          <b>{category.count}</b>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="p-views">
+    <a class:list={['p-view', activeView === 'series' && 'is-active']} href="/blog/series/">
+      <Icon name="book" size={14} />
+      系列
+    </a>
+    <span class="p-view-sep" aria-hidden="true">·</span>
+    <a class:list={['p-view', activeView === 'tags' && 'is-active']} href="/blog/tags/">
+      <Icon name="tag" size={14} />
+      标签
+    </a>
+    <span class="p-view-sep" aria-hidden="true">·</span>
+    <a class:list={['p-view', activeView === 'archives' && 'is-active']} href="/blog/archives/">
+      <Icon name="calendar" size={14} />
+      年份
+    </a>
+  </div>
+</nav>

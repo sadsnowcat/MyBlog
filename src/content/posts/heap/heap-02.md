@@ -1,13 +1,13 @@
 ---
-title: 从零开始的堆利用 02
-published: 2026-10-21T13:00:00.000Z
-description: 又一次glibc-2.23 fastbin attack
+title: "从零开始的堆利用 02"
+date: 2026-10-21T13:00:00+00:00
+description: "又一次glibc-2.23 fastbin attack"
 tags:
-  - pwn
-  - glibc
-category: Heap
+  - "pwn"
+  - "glibc"
+categories:
+  - "Heap"
 draft: true
-lang: zh_CN
 ---
 
 # 从零开始的堆利用 02

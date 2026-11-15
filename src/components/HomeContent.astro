@@ -1,0 +1,62 @@
+---
+import Sidebar from './Sidebar.astro';
+import PostRow from './content/PostRow.astro';
+import ContentPager from './content/ContentPager.astro';
+import { collectTerms, type Post } from '../lib/posts';
+import { site } from '../config';
+
+interface Props {
+  posts: Post[];
+  allPosts: Post[];
+  current: number;
+  total: number;
+  base?: string;
+}
+
+const { posts, allPosts, current, total, base = '' } = Astro.props;
+const tags = collectTerms(allPosts, 'tags');
+const categories = collectTerms(allPosts, 'categories');
+
+const sidebarLeft = site.sidebar.position === 'left';
+---
+
+<section class="content-container-wide relative z-10 pb-4 pt-10">
+  <div
+    class:list={['flex flex-col gap-6', site.sidebar.enable && 'lg:grid lg:gap-6']}
+    style={site.sidebar.enable ? `grid-template-columns: var(--sidebar-width) minmax(0, 1fr)` : undefined}
+  >
+    {
+      site.sidebar.enable && (
+        <Sidebar
+          postCount={allPosts.length}
+          tagCount={tags.length}
+          categoryCount={categories.length}
+          class={!sidebarLeft ? 'lg:order-2' : undefined}
+        />
+      )
+    }
+
+    <div class="min-w-0">
+      {
+        posts.length > 0 ? (
+          <>
+            <ul class="p-list">
+              {posts.map((post, index) => (
+                <PostRow post={post} index={(current - 1) * site.home.pageSize + index} />
+              ))}
+            </ul>
+            <ContentPager current={current} total={total} base={base} />
+          </>
+        ) : (
+          <div class="card flex flex-col items-center gap-2 px-6 py-16 text-center">
+            <p class="font-display text-lg text-ink-strong">还没有文章</p>
+            <p class="text-sm text-ink-muted">
+              在 <code class="rounded-xs bg-surface px-1.5 py-0.5 text-xs">src/content/posts/</code> 里新建 Markdown
+              文件即可。
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

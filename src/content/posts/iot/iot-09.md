@@ -1,11 +1,9 @@
 ---
-title: IoT 学习笔记 09
-published: 2026-09-24T13:43:26.508Z
-description: 使用构建系统（以 Buildroot 为例）
-tags: []
-category: IoT
-draft: false
-lang: zh_CN
+title: "IoT 学习笔记 09"
+date: 2026-09-24T13:43:26.508000+00:00
+description: "使用构建系统（以 Buildroot 为例）"
+categories:
+  - "IoT"
 ---
 
 # iot 学习笔记 0x09

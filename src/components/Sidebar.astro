@@ -1,0 +1,101 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config';
+
+interface Props {
+  postCount: number;
+  tagCount: number;
+  categoryCount: number;
+  class?: string;
+}
+
+const { postCount, tagCount, categoryCount, class: className } = Astro.props;
+const { sidebar, author } = site;
+---
+
+<aside
+  class:list={[
+    // 自己就是 grid item：align-self:start + sticky 才能在网格行高内跟随滚动
+    'sticky top-[calc(var(--navbar-height)+16px)] hidden flex-col gap-4 self-start lg:flex',
+    className,
+  ]}
+  style={`width: var(--sidebar-width)`}
+>
+  <!-- 作者信息 -->
+  <div class="card p-5 text-center">
+    <a href="/about" class="mx-auto block w-fit" aria-label="关于我">
+      <img
+        src={author.avatar}
+        alt={author.name}
+        width="88"
+        height="88"
+        class="h-[88px] w-[88px] rounded-full object-cover shadow-flat ring-2 ring-white/40 transition-transform duration-300 hover:scale-105 dark:ring-white/10"
+        loading="lazy"
+      />
+    </a>
+    <h2 class="mt-3 font-display text-lg font-semibold text-ink-strong">{author.name}</h2>
+    <p class="mt-1 text-[0.82rem] leading-relaxed text-ink-muted">{author.bio}</p>
+
+    {
+      site.social.length > 0 && (
+        <div class="mt-3 flex items-center justify-center gap-0.5">
+          {site.social.map((item) => (
+            <a
+              href={item.url}
+              class="icon-btn h-8 w-8"
+              aria-label={item.name}
+              title={item.name}
+              target={/^https?:/.test(item.url) ? '_blank' : undefined}
+              rel={/^https?:/.test(item.url) ? 'noopener noreferrer' : undefined}
+            >
+              <Icon name={item.icon} size={15} />
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <dl class="mt-4 grid grid-cols-3 gap-1 border-t border-line pt-3">
+      <div class="flex flex-col gap-0.5">
+        <dd class="font-display text-base font-semibold text-ink-strong">{postCount}</dd>
+        <dt class="text-[0.68rem] tracking-wide text-ink-muted">文章</dt>
+      </div>
+      <div class="flex flex-col gap-0.5">
+        <dd class="font-display text-base font-semibold text-ink-strong">{categoryCount}</dd>
+        <dt class="text-[0.68rem] tracking-wide text-ink-muted">分类</dt>
+      </div>
+      <div class="flex flex-col gap-0.5">
+        <dd class="font-display text-base font-semibold text-ink-strong">{tagCount}</dd>
+        <dt class="text-[0.68rem] tracking-wide text-ink-muted">标签</dt>
+      </div>
+    </dl>
+  </div>
+
+  <!-- 公告 -->
+  {
+    sidebar.announcement && (
+      <div class="card p-4">
+        <p class="section-label mb-2">公告</p>
+        <p class="text-[0.82rem] leading-relaxed text-ink-soft">{sidebar.announcement}</p>
+      </div>
+    )
+  }
+
+  <!-- 菜单 -->
+  {
+    sidebar.links.length > 0 && (
+      <nav class="card p-2" aria-label="侧栏导航">
+        {sidebar.links.map((link) => (
+          <a
+            href={link.path}
+            class="flex items-center gap-2.5 rounded-sm px-3 py-2 text-[0.86rem] text-ink-soft transition-colors hover:bg-primary/8 hover:text-primary"
+          >
+            {link.icon && <Icon name={link.icon} size={15} class="opacity-70" />}
+            {link.name}
+            <Icon name="chevron-right" size={13} class="ml-auto opacity-30" />
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</aside>

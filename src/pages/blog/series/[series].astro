@@ -1,0 +1,44 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContentHeader from '../../../components/content/ContentHeader.astro';
+import PostRow from '../../../components/content/PostRow.astro';
+import Icon from '../../../components/Icon.astro';
+import { collectSeries, getPosts, type Post } from '../../../lib/posts';
+
+import '../../../styles/content.css';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts();
+  return collectSeries(posts).map((series) => ({
+    params: { series: series.slug },
+    props: {
+      name: series.name,
+      posts: series.posts,
+    },
+  }));
+};
+
+interface Props {
+  name: string;
+  posts: Post[];
+}
+
+const { name, posts } = Astro.props;
+---
+
+<BaseLayout title={`系列：${name}`} description={`系列「${name}」下的全部文章`} solid>
+  <div class="p-page">
+    <a class="p-back" href="/blog/series/">
+      <Icon name="arrow-left" size={13} />
+      全部系列
+    </a>
+
+    <ContentHeader kicker="Series" title={name} />
+
+    <ul class="p-list p-list-flush">
+      {posts.map((post, index) => <PostRow post={post} index={index} />)}
+    </ul>
+  </div>
+</BaseLayout>

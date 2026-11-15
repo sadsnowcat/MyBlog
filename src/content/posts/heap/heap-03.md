@@ -1,14 +1,13 @@
 ---
-title: 从零开始的堆利用 03
-published: 2026-10-26
-description: 'off-by-one 与 fake chunk '
-image: ''
+title: "从零开始的堆利用 03"
+date: 2026-10-26T00:00:00
+description: "off-by-one 与 fake chunk "
 tags:
-  - pwn
-  - glibc
-category: Heap
+  - "pwn"
+  - "glibc"
+categories:
+  - "Heap"
 draft: true
-lang: zh_CN
 ---
 
 # 从零开始的堆利用 03

@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ContentHeader from '../../../components/content/ContentHeader.astro';
+import GroupNav from '../../../components/content/GroupNav.astro';
+import PostRow from '../../../components/content/PostRow.astro';
+import { collectTerms, getPosts, postsWithTerm, type Post } from '../../../lib/posts';
+
+import '../../../styles/content.css';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts();
+  const categories = collectTerms(posts, 'categories');
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: { name: category.name, posts: postsWithTerm(posts, 'categories', category.name) },
+  }));
+};
+
+interface Props {
+  name: string;
+  posts: Post[];
+}
+
+const { name, posts } = Astro.props;
+---
+
+<BaseLayout title={`分类：${name}`} description={`分类「${name}」下的全部文章`} solid>
+  <div class="p-page">
+    <ContentHeader kicker="Category" title={name} />
+
+    <GroupNav activeView="posts" activeCategory={name} />
+
+    <ul class="p-list">
+      {posts.map((post, index) => <PostRow post={post} index={index} />)}
+    </ul>
+  </div>
+</BaseLayout>

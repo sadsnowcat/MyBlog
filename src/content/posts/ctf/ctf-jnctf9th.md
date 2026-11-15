@@ -1,15 +1,13 @@
 ---
-title: JNCTF9th
-published: 2026-04-19T16:00:00+08:00
-description: 校赛记录
+title: "JNCTF9th"
+date: 2026-04-19T16:00:00+08:00
+description: "校赛记录"
 tags:
-  - pwn
-  - glibc
-category: CTF
-draft: false
-lang: zh_CN
+  - "pwn"
+  - "glibc"
+categories:
+  - "CTF"
 ---
-
 
 ## poison
 

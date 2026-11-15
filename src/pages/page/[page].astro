@@ -1,0 +1,36 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeContent from '../../components/HomeContent.astro';
+import { getPosts, paginatePosts, type Post } from '../../lib/posts';
+import { site } from '../../config';
+
+import '../../styles/content.css';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts();
+  const pages = paginatePosts(posts, site.home.pageSize);
+
+  // 第 1 页由 index.astro 生成，这里只产出 2..N
+  return pages.slice(1).map((pagePosts, index) => ({
+    params: { page: String(index + 2) },
+    props: { posts: pagePosts, allPosts: posts, current: index + 2, total: pages.length },
+  }));
+};
+
+interface Props {
+  posts: Post[];
+  allPosts: Post[];
+  current: number;
+  total: number;
+}
+
+const { posts, allPosts, current, total } = Astro.props;
+---
+
+<BaseLayout title={`第 ${current} 页`} solid>
+  <div class="pt-[calc(var(--navbar-height)+2rem)]">
+    <HomeContent posts={posts} allPosts={allPosts} current={current} total={total} base="" />
+  </div>
+</BaseLayout>
