@@ -240,7 +240,10 @@ export const site: SiteConfig = {
     banner: {
       enable: true,
       style: 'fixed',
-      image: { light: '/images/banner-light.svg', dark: '/images/banner-dark.svg' },
+      image: {
+        light: '/images/wallhaven-wqery6-light.webp',
+        dark: '/images/wallhaven-wqery6-dark.webp',
+      },
       title: 'snowcat',
       subtitles: ['Maybe every day will be better!'],
       typingSpeed: 100,
