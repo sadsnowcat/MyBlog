@@ -640,8 +640,9 @@ body.solid .markdown-body h2 {
 
 body.solid .markdown-body blockquote {
   background: var(--paper-surface-muted);
-  border-left-color: color-mix(in srgb, var(--paper-accent) 55%, transparent);
-  color: var(--paper-ink-soft);
+  border-left-color: var(--paper-ink);
+  color: var(--paper-ink);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 
 body.solid .markdown-body :not(pre) > code {

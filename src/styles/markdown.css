@@ -129,11 +129,12 @@
 .markdown-body blockquote {
   position: relative;
   margin: 1.6em 0;
-  padding: 0.9em 1.2em 0.9em 1.4em;
-  color: var(--color-ink-soft);
-  background: color-mix(in srgb, var(--color-surface-2) 70%, transparent);
-  border-radius: var(--radius-md);
-  border-left: 3px solid color-mix(in srgb, var(--primary-color) 60%, transparent);
+  padding: 0.75em 1.1em 0.75em 1.1em;
+  color: var(--color-ink);
+  background: var(--color-surface-2);
+  /* Redefine 的样式：左侧粗竖条用文字色，左边直角、右边圆角 */
+  border-left: 5px solid var(--color-ink);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 .markdown-body blockquote > :first-child {
   margin-top: 0;
