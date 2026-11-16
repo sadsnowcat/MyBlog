@@ -195,8 +195,8 @@ export const site: SiteConfig = {
   ],
 
   colors: {
-    // 取自原站 themeColor.hue = 250（hsl(250, 70%, 60%)）
-    primary: '#6952e0',
+    // Redefine 主题原本的深红
+    primary: '#a31f34',
     defaultMode: 'dark',
     toggle: true,
   },
