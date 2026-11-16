@@ -1041,8 +1041,15 @@ body.solid .page-title {
   .p-row {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 20px 0;
+    gap: 14px;
+    /* 关键：竖向排列时要让子项撑满宽度，否则继承来的 center 会让文字按内容宽度居中 */
+    align-items: stretch;
+    padding: 16px 18px 18px;
+  }
+
+  .p-row > * {
+    width: 100%;
+    min-width: 0;
   }
 
   .p-thumb {
