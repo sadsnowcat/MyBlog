@@ -23,7 +23,7 @@ export const friends: Friend[] = [
   {
     name: 'Findkey',
     url: 'https://find-key.github.io/',
-    avatar: 'https://find-key.github.io/images/head_image.jpg',
+    avatar: 'https://find-key.github.io/kirito.webp',
     description: 'To Be PWN Master',
     tag: 'ctf',
   },
