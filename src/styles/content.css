@@ -713,6 +713,16 @@ body.solid .page-title {
   margin-top: 0;
 }
 
+/* 关于页头像：覆盖 markdown 图片的默认大图样式 */
+.markdown-body img.about-avatar {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 1.8em;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 30px -14px rgba(16, 24, 40, 0.45);
+}
+
 .p-notfound {
   display: flex;
   flex-direction: column;

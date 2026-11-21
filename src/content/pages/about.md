@@ -3,6 +3,8 @@ title: 关于
 description: 关于 snowcat，以及这个站点。
 ---
 
+<img src="/images/head.jpg?v=2" alt="snowcat" width="160" height="160" class="about-avatar" />
+
 欢迎来到 snowcat 顾雪的博客。
 
 **Misc is where the dream began, and in the end, I embarked on the point of no return that is PWN.**

@@ -184,7 +184,7 @@ export const site: SiteConfig = {
 
   author: {
     name: 'snowcat',
-    avatar: '/images/sadsnowcat.jpg',
+    avatar: '/images/head.jpg?v=2', // ?v=2 用于绕过旧头像 URL 的浏览器缓存
     bio: 'CTFer | PWN',
   },
 
