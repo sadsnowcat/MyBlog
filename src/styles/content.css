@@ -925,17 +925,6 @@ body.solid .page-title {
   white-space: nowrap;
 }
 
-.p-friend-tag {
-  flex: 0 0 auto;
-  padding: 0 6px;
-  border: 1px solid var(--paper-line);
-  border-radius: 999px;
-  color: var(--paper-ink-faint);
-  font-family: var(--p-font-meta);
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-}
-
 .p-friend-desc {
   display: block;
   margin-top: 3px;
