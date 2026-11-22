@@ -54,6 +54,12 @@ export const friends: Friend[] = [
     description: '计科小奶猫 | Algo',
   },
   {
+    name: 'd4yt1m3',
+    url: 'https://d4yt1m3.github.io/',
+    avatar: 'https://avatars.githubusercontent.com/u/184584369?v=4',
+    description: '人工智能与摄影研究小奶猫',
+  },
+  {
     name: 'Chloe',
     url: 'https://hey-chloe.github.io',
     avatar: 'https://avatars.githubusercontent.com/u/246075173?v=4',
