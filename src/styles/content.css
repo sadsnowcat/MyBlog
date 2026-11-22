@@ -890,10 +890,17 @@ body.solid .page-title {
 }
 
 .p-friend-avatar img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* 有头像时隐藏字母占位；图片加载失败被 onerror 移除后字母会自动恢复 */
+.p-friend-avatar:has(img) .p-friend-letter {
+  display: none;
 }
 
 .p-friend-letter {
