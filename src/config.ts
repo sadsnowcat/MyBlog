@@ -241,8 +241,8 @@ export const site: SiteConfig = {
       enable: true,
       style: 'fixed',
       image: {
-        light: '/images/wallhaven-wqery6-light.webp',
-        dark: '/images/wallhaven-wqery6-dark.webp',
+        light: '/images/home-bg-light.webp',
+        dark: '/images/home-bg-dark.webp',
       },
       title: 'snowcat',
       subtitles: ['Maybe every day will be better!'],
