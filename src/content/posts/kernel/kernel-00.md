@@ -3,6 +3,7 @@ title: "Linux kernel 入门之简易指北"
 date: 2026-11-24T00:00:00
 description: ""
 tags:
+  - "Kernel"
 categories:
   - "Kernel"
 ---
