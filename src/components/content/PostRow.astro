@@ -8,9 +8,11 @@ interface Props {
   post: Post;
   /** 列表序号（用于左侧 01 / 02 编号） */
   index: number;
+  /** 去掉卡片外观，改成纯列表行（系列详情页使用） */
+  flat?: boolean;
 }
 
-const { post, index } = Astro.props;
+const { post, index, flat = false } = Astro.props;
 const { data } = post;
 const href = postPath(post);
 const cover = data.cover;
@@ -18,7 +20,7 @@ const excerpt = postExcerpt(post, site.home.excerptLength);
 ---
 
 <li>
-  <div class:list={['p-row', !cover && 'is-flat']}>
+  <div class:list={['p-row', !cover && 'is-flat', flat && 'is-line']}>
     <div class="min-w-0">
       <h2 class="p-row-title">
         <span class="p-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>

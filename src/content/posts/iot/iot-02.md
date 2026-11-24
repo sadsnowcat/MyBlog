@@ -4,6 +4,14 @@ date: 2026-08-28T09:38:29.574000+00:00
 description: "引导加载程序 —— U-Boot"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "u-boot"
+  - "qemu"
+  - "tftp"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x02

@@ -2,11 +2,17 @@
 title: "从零开始的堆利用 03"
 date: 2026-10-26T00:00:00
 description: "off-by-one 与 fake chunk "
-tags:
-  - "pwn"
-  - "glibc"
 categories:
   - "Heap"
+tags:
+  - "pwn"
+  - "heap"
+  - "glibc"
+  - "off-by-one"
+  - "fake-chunk"
+  - "free-hook"
+series:
+  - "从零开始的堆利用"
 draft: true
 ---
 

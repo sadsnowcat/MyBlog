@@ -4,6 +4,14 @@ date: 2026-09-13T01:13:26+00:00
 description: "基于 BusyBox 的微型嵌入式系统"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "busybox"
+  - "rootfs"
+  - "nfs"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x05

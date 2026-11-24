@@ -4,6 +4,13 @@ date: 2026-08-29T10:34:19.446000+00:00
 description: "获取 Linux 内核源码"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "linux-kernel"
+  - "kernel-source"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x03

@@ -77,8 +77,16 @@ export interface SiteConfig {
   /** 社交链接，显示在侧栏与页脚 */
   social: SocialLink[];
   colors: {
-    /** 主题色，对应 colors.primary */
+    /**
+     * 主题色（强调色），对应 colors.primary。
+     * 现在是 Catppuccin Latte 的 Mauve；链接、按钮、当前目录等都用它。
+     */
     primary: string;
+    /**
+     * 暗色模式下的主题色。Catppuccin 每个口味各有一套色值，
+     * 暗色用 Macchiato 的 Mauve，比直接提亮亮色版更准。
+     */
+    primaryDark: string;
     /**
      * 首次访问的配色，对应 colors.default_mode。
      * 'auto' = 跟随系统 prefers-color-scheme；访客手动切换过则以 localStorage 为准。
@@ -102,8 +110,10 @@ export interface SiteConfig {
     title?: string;
     logo?: string;
     links: NavLink[];
-    /** 导航栏背景渐变，对应 navbar.color */
+    /** 导航栏背景渐变，对应 navbar.color（亮色模式） */
     color: { left: string; right: string; transparency: number };
+    /** 导航栏渐变在暗色模式下的色值；不填则沿用 color */
+    colorDark?: { left: string; right: string; transparency: number };
     search: { enable: boolean };
     /** 导航栏内容最大宽度（全站统一，避免切页时左右位移） */
     width: string;
@@ -195,8 +205,9 @@ export const site: SiteConfig = {
   ],
 
   colors: {
-    // Redefine 主题原本的深红
-    primary: '#a31f34',
+    // Catppuccin Latte / Macchiato 的 Mauve（Catppuccin 官方示例默认强调色）
+    primary: '#8839ef',
+    primaryDark: '#c6a0f6',
     defaultMode: 'dark',
     toggle: true,
   },
@@ -216,7 +227,9 @@ export const site: SiteConfig = {
       { name: '友链', path: '/friends', icon: 'link' },
       { name: '关于', path: '/about', icon: 'user' },
     ],
-    color: { left: '#f78736', right: '#367df7', transparency: 35 },
+    // Catppuccin 的 Peach → Blue；透明度压低，只留一层很淡的色彩倾向
+    color: { left: '#fe640b', right: '#1e66f5', transparency: 20 },
+    colorDark: { left: '#f5a97f', right: '#8aadf4', transparency: 24 },
     search: { enable: true },
     width: '1200px',
   },

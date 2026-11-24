@@ -2,10 +2,16 @@
 title: "ISCC Heap"
 date: 2026-09-02T09:39:16.988000+00:00
 description: "一次简单的堆利用"
+categories:
+  - "CTF"
+  - "Heap"
 tags:
   - "pwn"
-categories:
-  - "Heap"
+  - "heap"
+  - "glibc"
+  - "unsorted-bin"
+  - "arbitrary-write"
+  - "free-hook"
 ---
 
 # ISCC PWN test

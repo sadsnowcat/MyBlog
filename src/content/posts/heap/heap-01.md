@@ -2,11 +2,17 @@
 title: "从零开始的堆利用 01"
 date: 2026-10-19T13:00:00+00:00
 description: "记一次glibc-2.23 fastbin attack"
-tags:
-  - "pwn"
-  - "glibc"
 categories:
   - "Heap"
+tags:
+  - "pwn"
+  - "heap"
+  - "glibc"
+  - "fastbin"
+  - "unsorted-bin"
+  - "uaf"
+series:
+  - "从零开始的堆利用"
 draft: true
 ---
 

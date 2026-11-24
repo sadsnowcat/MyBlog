@@ -4,6 +4,14 @@ date: 2026-09-22T15:30:00+00:00
 description: "块设备文件系统"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "block-device"
+  - "sd-card"
+  - "filesystem"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x07

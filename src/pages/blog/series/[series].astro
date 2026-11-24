@@ -38,7 +38,7 @@ const { name, posts } = Astro.props;
     <ContentHeader kicker="Series" title={name} />
 
     <ul class="p-list p-list-flush">
-      {posts.map((post, index) => <PostRow post={post} index={index} />)}
+      {posts.map((post, index) => <PostRow post={post} index={index} flat />)}
     </ul>
   </div>
 </BaseLayout>

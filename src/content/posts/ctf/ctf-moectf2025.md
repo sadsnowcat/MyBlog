@@ -2,11 +2,14 @@
 title: "MoeCTF2025PWN笔记"
 date: 2026-01-26T12:00:00+08:00
 description: "MoeCTF2025PWN个人向学习笔记"
-tags:
-  - "pwn"
-  - "glibc"
 categories:
   - "CTF"
+tags:
+  - "pwn"
+  - "stack-overflow"
+  - "ret2text"
+  - "shellcode"
+  - "libc"
 ---
 
 # MoeCTF2025PWN笔记

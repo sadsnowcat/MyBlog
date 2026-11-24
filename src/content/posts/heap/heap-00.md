@@ -2,11 +2,16 @@
 title: "从零开始的堆利用 00"
 date: 2026-07-22T03:41:08.957000+00:00
 description: "堆利用的第一步，认识堆"
-tags:
-  - "pwn"
-  - "glibc"
 categories:
   - "Heap"
+tags:
+  - "pwn"
+  - "heap"
+  - "glibc"
+  - "ptmalloc"
+  - "tcache"
+series:
+  - "从零开始的堆利用"
 ---
 
 # 堆利用基础

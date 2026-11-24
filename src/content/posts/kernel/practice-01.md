@@ -2,10 +2,17 @@
 title: "Kernel Pwn 练习小记 01"
 date: 2026-10-26T00:00:00
 description: "第一次 Kernel Pwn "
+categories:
+  - "CTF"
+  - "Kernel"
 tags:
   - "pwn"
-categories:
-  - "Kernel"
+  - "kernel-pwn"
+  - "kernel-module"
+  - "qemu"
+  - "canary"
+series:
+  - "Kernel Pwn 练习小记"
 ---
 
 > 相比起来，Kernel Pwn 的入门不算很轻松，~~（至少对笔者是这样的）~~

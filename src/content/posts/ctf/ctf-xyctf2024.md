@@ -2,10 +2,14 @@
 title: "XYCTF2024PWN"
 date: 2026-10-11T14:35:25.270000+00:00
 description: "久违地找了场比赛复现"
-tags:
-  - "pwn"
 categories:
   - "CTF"
+tags:
+  - "pwn"
+  - "format-string"
+  - "ret2libc"
+  - "srop"
+  - "seccomp"
 ---
 
 > 更新于 2026-11-21
@@ -248,7 +252,7 @@ void GetInfo()
 
 还有一段汇编
 
-```nasm
+```asm
 endbr64
 push    rbp
 mov     rbp, rsp

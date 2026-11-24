@@ -4,6 +4,13 @@ date: 2026-08-27T12:04:36.644000+00:00
 description: "构建交叉编译工具链"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "cross-compile"
+  - "toolchain"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x01

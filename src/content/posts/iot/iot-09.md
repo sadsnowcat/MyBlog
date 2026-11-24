@@ -4,6 +4,13 @@ date: 2026-09-24T13:43:26.508000+00:00
 description: "使用构建系统（以 Buildroot 为例）"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "buildroot"
+  - "linux-kernel"
+series:
+  - "IoT 学习笔记"
 ---
 
 # iot 学习笔记 0x09

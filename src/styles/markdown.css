@@ -77,6 +77,13 @@
   opacity: 1;
 }
 
+/* 加粗只加粗、不上色（保持正文文字色，避免正文变成“彩色标题 + 彩色重点”） */
+.markdown-body strong,
+.markdown-body b {
+  font-weight: 600;
+  color: inherit;
+}
+
 /* ---------------------------------------------------------------- 链接 */
 .markdown-body a {
   color: var(--color-primary);
@@ -230,10 +237,10 @@
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-flat);
-  background: var(--shiki-light-bg, #fafafa);
+  background: var(--shiki-light-bg, var(--ctp-base));
 }
 .dark .markdown-body .code-block {
-  background: var(--shiki-dark-bg, #24292e);
+  background: var(--shiki-dark-bg, #1e1e2e);
 }
 
 .markdown-body pre {
@@ -298,7 +305,7 @@
   background: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 .code-copy[data-copied='true'] {
-  color: #22c55e;
+  color: var(--ctp-green);
 }
 
 /* ---------------------------------------------------------------- mermaid */

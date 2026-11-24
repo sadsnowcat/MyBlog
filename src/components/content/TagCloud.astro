@@ -7,12 +7,16 @@ interface Props {
 
 const { tags } = Astro.props;
 
-/** 低饱和的「档案色卡」，按标签序号循环取色（参考站用的是同一套思路） */
+/**
+ * Catppuccin 的 14 个强调色，按标签序号循环取色。
+ * 这里只写入色板变量名，具体亮度由 CSS 按亮/暗模式处理：
+ * 亮色会往正文色方向压一点保证可读，暗色直接用 Macchiato 的色值。
+ */
 const colors = [
-  '#2f8f5b', '#bd6b1e', '#6e8f3f', '#a34d78', '#3f7f96',
-  '#9a5f2e', '#516fb0', '#8b6f2f', '#4f8a72', '#b1554b',
-  '#687a32', '#6f5a9a', '#2f7f89', '#a07836', '#86615b',
-  '#4d7c4f', '#8a6ea7', '#a85b36', '#427a67', '#8a7d3a',
+  'var(--ctp-mauve)', 'var(--ctp-blue)', 'var(--ctp-teal)', 'var(--ctp-green)',
+  'var(--ctp-peach)', 'var(--ctp-pink)', 'var(--ctp-sapphire)', 'var(--ctp-lavender)',
+  'var(--ctp-red)', 'var(--ctp-yellow)', 'var(--ctp-sky)', 'var(--ctp-maroon)',
+  'var(--ctp-flamingo)', 'var(--ctp-rosewater)',
 ];
 
 const counts = tags.map((tag) => tag.count);

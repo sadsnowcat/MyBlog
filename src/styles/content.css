@@ -8,23 +8,28 @@
 
 /* ---------------------------------------------------------------- 变量 */
 body.solid {
-  /* 内容页的「悬浮卡片」配色：卡片实心不透明，靠阴影和描边浮起来 */
-  --paper-surface: #ffffff;
-  --paper-surface-muted: #f6f7f9;
-  --paper-line: var(--color-line);
-  --paper-line-strong: color-mix(in srgb, var(--color-ink) 20%, transparent);
-  --paper-ink: var(--color-ink-strong);
-  --paper-ink-soft: var(--color-ink-muted);
-  --paper-ink-faint: color-mix(in srgb, var(--color-ink-muted) 68%, transparent);
-  --paper-control: #ffffff;
-  --paper-control-hover: #f6f7f9;
+  /* 内容页的「悬浮卡片」配色：卡片实心不透明，靠阴影和描边浮起来。
+     页面用 mantle/crust 压深一层，卡片用 base，形成 Catppuccin 的分层感。 */
+  --paper-page: var(--ctp-mantle);
+  --paper-surface: var(--ctp-base);
+  --paper-surface-muted: var(--ctp-mantle);
+  --paper-line: var(--ctp-surface0);
+  --paper-line-strong: var(--ctp-surface1);
+  --paper-ink: var(--ctp-text);
+  --paper-ink-soft: var(--ctp-subtext0);
+  --paper-ink-faint: var(--ctp-overlay1);
+  --paper-control: var(--ctp-base);
+  --paper-control-hover: var(--ctp-mantle);
   --paper-accent: var(--color-primary);
   --paper-accent-soft: color-mix(in srgb, var(--color-primary) 10%, transparent);
 
+  /* 整页底色比卡片深一档，卡片才会"浮"起来 */
+  background-color: var(--paper-page);
+
   /* 卡片阴影：近处一层薄影 + 远处一层扩散影，才有"浮起来"的感觉 */
-  --surface-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 12px 28px -16px rgba(16, 24, 40, 0.3);
+  --surface-shadow: 0 1px 2px rgba(76, 79, 105, 0.06), 0 12px 28px -16px rgba(76, 79, 105, 0.25);
   --surface-shadow-hover:
-    0 2px 6px rgba(16, 24, 40, 0.07), 0 22px 42px -20px rgba(16, 24, 40, 0.38);
+    0 2px 6px rgba(76, 79, 105, 0.08), 0 22px 42px -20px rgba(76, 79, 105, 0.32);
 
   --p-shell: 1168px;
   --p-gutter: 32px;
@@ -34,13 +39,12 @@ body.solid {
 }
 
 .dark body.solid {
-  --paper-surface: #1e2430;
-  --paper-surface-muted: #252b37;
-  --paper-control: #1e2430;
-  --paper-control-hover: #252b37;
-  --surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 14px 30px -18px rgba(0, 0, 0, 0.75);
+  --paper-page: var(--ctp-crust);
+  --paper-control: var(--ctp-surface0);
+  --paper-control-hover: var(--ctp-surface1);
+  --surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 14px 30px -18px rgba(0, 0, 0, 0.7);
   --surface-shadow-hover:
-    0 2px 8px rgba(0, 0, 0, 0.5), 0 24px 44px -20px rgba(0, 0, 0, 0.85);
+    0 2px 8px rgba(0, 0, 0, 0.5), 0 24px 44px -20px rgba(0, 0, 0, 0.8);
 }
 
 /* ---------------------------------------------------------------- 布局 */
@@ -262,6 +266,32 @@ body.solid {
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* 系列详情：去掉卡片底/边框/阴影，只留一条分隔线 */
+.p-row.is-line {
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 32px;
+  padding: 22px 0;
+  border: 0;
+  border-bottom: 1px solid var(--paper-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.p-row.is-line:hover {
+  border-bottom-color: color-mix(in srgb, var(--paper-accent) 35%, var(--paper-line));
+  box-shadow: none;
+  transform: none;
+}
+
+.p-row.is-line.is-flat {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.p-row.is-line .p-thumb {
+  width: 100%;
+}
+
 .p-index {
   flex: 0 0 auto;
   width: 2.8ch;
@@ -467,7 +497,8 @@ body.solid {
   display: inline-flex;
   gap: 5px;
   align-items: baseline;
-  color: var(--tag-color, var(--paper-ink-soft));
+  /* 亮色下把饱和的 Catppuccin 强调色往正文色压 18%，小字号/大字都能读 */
+  color: color-mix(in srgb, var(--tag-color, var(--paper-ink-soft)) 82%, var(--paper-ink));
   font-family: var(--p-font-heading);
   font-size: calc(0.92rem + var(--tag-weight, 0) * 1.18rem);
   font-weight: calc(500 + var(--tag-weight, 0) * 200);
@@ -488,7 +519,8 @@ body.solid {
 }
 
 .dark body.solid .p-cloud-tag {
-  color: color-mix(in srgb, var(--tag-color, #8a949e) 62%, #ffffff);
+  /* Macchiato 的强调色在暗底上本来就够亮，不再混白 */
+  color: var(--tag-color, var(--paper-ink-soft));
 }
 
 .p-cloud-tag:hover {
@@ -739,75 +771,140 @@ body.solid .page-title {
 }
 
 /* ---------------------------------------------------------------- 系列 */
-.p-series-grid {
+/* 系列索引：不使用悬浮卡片，改用参考站的「两栏 + 细线分隔」排版 */
+.p-series-flat {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 46px 64px;
+  margin-top: 6px;
+}
+
+.s-series {
+  min-width: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--paper-line-strong);
+}
+
+.s-series-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.s-series-kicker {
+  color: var(--paper-accent);
+  font-family: var(--p-font-meta);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.s-series-count {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--paper-ink-faint);
+  font-family: var(--p-font-meta);
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+/* 长度按该系列篇数占最多系列的比例变化，只作视觉参考 */
+.s-series-bar {
+  display: block;
+  width: calc(2.5rem + 4.5rem * var(--ratio, 0.2));
+  height: 3px;
+  border-radius: 2px;
+  background: var(--paper-accent);
+  opacity: 0.6;
+}
+
+.s-series-title {
+  margin: 10px 0 8px;
+  color: var(--paper-ink);
+  font-family: var(--p-font-heading);
+  font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.s-series-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.s-series-title a:hover {
+  color: var(--paper-accent);
+}
+
+.s-series-posts {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.p-series {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  height: 100%;
-  padding: 18px 20px;
-  border: 1px solid var(--paper-line);
-  border-radius: var(--radius-lg);
-  background: var(--paper-surface);
-  box-shadow: var(--surface-shadow);
-  color: inherit;
-  text-decoration: none;
-  transition:
-    transform 0.25s var(--ease-out-soft),
-    box-shadow 0.25s var(--ease-out-soft),
-    border-color 0.25s ease;
+.s-series-posts li {
+  border-bottom: 1px solid var(--paper-line);
 }
 
-.p-series:hover {
-  border-color: color-mix(in srgb, var(--paper-accent) 24%, var(--paper-line));
-  box-shadow: var(--surface-shadow-hover);
-  transform: translateY(-3px);
-}
-
-.p-series-name {
-  color: var(--paper-ink);
-  font-family: var(--p-font-heading);
-  font-size: 1.08rem;
-}
-
-.p-series-meta {
-  color: var(--paper-ink-faint);
-  font-family: var(--p-font-meta);
-  font-size: 0.72rem;
-  letter-spacing: 0.03em;
-}
-
-.p-series-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.p-series-list li {
-  display: flex;
-  gap: 8px;
+.s-series-posts a {
+  display: grid;
+  grid-template-columns: 2.4ch minmax(0, 1fr) auto;
+  gap: 14px;
   align-items: baseline;
-  min-width: 0;
+  padding: 12px 0;
   color: var(--paper-ink-soft);
-  font-size: 0.8rem;
+  text-decoration: none;
 }
 
-.p-series-no {
-  flex: 0 0 auto;
+.s-series-no {
   color: var(--paper-ink-faint);
   font-family: var(--p-font-meta);
-  font-size: 0.7rem;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.18s ease;
+}
+
+.s-series-post-title {
+  overflow: hidden;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+}
+
+.s-series-date {
+  color: var(--paper-ink-faint);
+  font-family: var(--p-font-meta);
+  font-size: 0.73rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.s-series-posts a:hover .s-series-post-title,
+.s-series-posts a:hover .s-series-no {
+  color: var(--paper-accent);
+}
+
+.s-series-more {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 14px;
+  color: var(--paper-accent);
+  font-family: var(--p-font-meta);
+  font-size: 0.76rem;
+  text-decoration: none;
+  transition: gap 0.18s ease;
+}
+
+.s-series-more:hover {
+  gap: 10px;
 }
 
 /* ---------------------------------------------------------------- 友链 */
@@ -1015,6 +1112,11 @@ body.solid .page-title {
 
 /* ---------------------------------------------------------------- 响应式 */
 @media (max-width: 900px) {
+  .p-series-flat {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
   .p-hero {
     grid-template-columns: minmax(0, 1fr);
     gap: 14px;
@@ -1052,6 +1154,18 @@ body.solid .page-title {
     /* 关键：竖向排列时要让子项撑满宽度，否则继承来的 center 会让文字按内容宽度居中 */
     align-items: stretch;
     padding: 16px 18px 18px;
+  }
+
+  .p-row.is-line {
+    padding: 18px 0;
+  }
+
+  .s-series-date {
+    display: none;
+  }
+
+  .s-series-posts a {
+    grid-template-columns: 2.4ch minmax(0, 1fr);
   }
 
   .p-row > * {

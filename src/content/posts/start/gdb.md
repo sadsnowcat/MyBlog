@@ -2,10 +2,14 @@
 title: "如何使用 GDB + pwndbg 调试"
 date: 2026-10-23T00:00:00
 description: "gdb + pwndbg 常用调试命令整理，以及和 pwntools 的联动调试"
-tags:
-  - "pwn"
 categories:
-  - "Misc"
+  - "Tool"
+tags:
+  - "gdb"
+  - "pwndbg"
+  - "pwntools"
+  - "pwn"
+  - "debugging"
 ---
 
 # 如何使用 GDB + pwndbg 调试

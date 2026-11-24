@@ -41,6 +41,7 @@ const {
 const cssVars = `
   html[data-theme] {
     --brand-color: ${site.colors.primary};
+    --brand-color-dark: ${site.colors.primaryDark};
     --content-max-width: ${site.layout.contentMaxWidth};
     --content-max-width-wide: ${site.layout.contentMaxWidthWide};
     --sidebar-width: ${site.layout.sidebarWidth};
@@ -51,6 +52,9 @@ const cssVars = `
     --home-banner-image: url('${site.home.banner.image.light}');
   }
   html[data-theme].dark {
+    --nav-color-1: ${(site.navbar.colorDark ?? site.navbar.color).left};
+    --nav-color-2: ${(site.navbar.colorDark ?? site.navbar.color).right};
+    --nav-transparency: ${(site.navbar.colorDark ?? site.navbar.color).transparency}%;
     --home-banner-image: url('${site.home.banner.image.dark}');
   }
 `;

@@ -2,10 +2,10 @@
 title: "随笔 & 小记"
 date: 2026-01-17T09:00:00+08:00
 description: "Hello World"
+categories:
+  - "Essay"
 tags:
   - "随笔"
-categories:
-  - "Misc"
 ---
 
 Welcome to my blog.

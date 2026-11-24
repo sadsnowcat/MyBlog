@@ -2,11 +2,15 @@
 title: "JNCTF9th"
 date: 2026-04-19T16:00:00+08:00
 description: "校赛记录"
-tags:
-  - "pwn"
-  - "glibc"
 categories:
   - "CTF"
+tags:
+  - "pwn"
+  - "heap"
+  - "glibc"
+  - "off-by-null"
+  - "tcache"
+  - "unsorted-bin"
 ---
 
 ## poison

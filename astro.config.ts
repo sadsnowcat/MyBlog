@@ -36,8 +36,9 @@ export default defineConfig({
       rehypePlugins: [[rehypeKatex, { strict: false, output: 'html' }]],
     }),
     // 代码高亮：Shiki 双主题，跟随 .dark 切换（颜色由 CSS 变量驱动）
+    // 用 Catppuccin 官方 Shiki 主题，保证代码块和正文配色是同一套色板
     shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
+      themes: { light: 'catppuccin-latte', dark: 'catppuccin-mocha' },
       defaultColor: false,
       wrap: true,
     },

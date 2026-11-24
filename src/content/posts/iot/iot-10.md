@@ -4,6 +4,13 @@ date: 2026-09-25T04:07:48.460000+00:00
 description: "应用程序开发"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "buildroot"
+  - "ncurses"
+series:
+  - "IoT 学习笔记"
 ---
 
 # iot 学习笔记 10

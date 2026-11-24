@@ -4,6 +4,14 @@ date: 2026-09-23T15:41:19.342000+00:00
 description: "第三方库与应用程序"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "cross-compile"
+  - "autotools"
+  - "meson"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x08

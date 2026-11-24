@@ -2,10 +2,15 @@
 title: "BaseCTF2024PWN"
 date: 2026-05-10T19:00:00+08:00
 description: "复现了BaseCTF2024部分题目"
-tags:
-  - "pwn"
 categories:
   - "CTF"
+tags:
+  - "pwn"
+  - "stack-overflow"
+  - "ret2text"
+  - "ret2libc"
+  - "canary"
+  - "format-string"
 ---
 
 复现地址 [https://gz.imxbt.cn/games/13](https://gz.imxbt.cn/games/13)

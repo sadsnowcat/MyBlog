@@ -4,6 +4,13 @@ date: 2026-09-13T01:20:00+00:00
 description: "访问硬件设备"
 categories:
   - "IoT"
+tags:
+  - "iot"
+  - "embedded-linux"
+  - "device-file"
+  - "sysfs"
+series:
+  - "IoT 学习笔记"
 ---
 
 # IoT 学习笔记 0x06

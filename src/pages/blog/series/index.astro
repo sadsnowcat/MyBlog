@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ContentHeader from '../../../components/content/ContentHeader.astro';
 import GroupNav from '../../../components/content/GroupNav.astro';
-import { collectSeries, getPosts } from '../../../lib/posts';
+import { collectSeries, getPosts, postPath } from '../../../lib/posts';
 import { formatDate } from '../../../lib/utils';
 import { site } from '../../../config';
 
@@ -10,6 +10,8 @@ import '../../../styles/content.css';
 
 const posts = await getPosts();
 const series = collectSeries(posts);
+/** 进度条按「最多篇数的系列」为满格，只做视觉参考 */
+const maxCount = Math.max(1, ...series.map((item) => item.count));
 ---
 
 <BaseLayout title="系列" description="按主题连载的文章集合" solid>
@@ -20,28 +22,49 @@ const series = collectSeries(posts);
 
     {
       series.length > 0 ? (
-        <ul class="p-series-grid">
+        <div class="p-series-flat">
           {series.map((item) => (
-            <li>
-              <a class="p-series" href={`/blog/series/${item.slug}/`}>
-                <span class="p-series-name">{item.name}</span>
-                <span class="p-series-meta">
-                  {item.count} 篇 · {formatDate(item.first, 'YYYY-MM', site.lang)} →{' '}
-                  {formatDate(item.latest, 'YYYY-MM', site.lang)}
+            <section class="s-series">
+              <div class="s-series-head">
+                <span class="s-series-kicker">系列</span>
+                <span class="s-series-count">
+                  已发布 {item.count} 篇
+                  <span
+                    class="s-series-bar"
+                    style={`--ratio: ${(item.count / maxCount).toFixed(3)}`}
+                    aria-hidden="true"
+                  />
                 </span>
-                <ol class="p-series-list">
-                  {item.posts.slice(0, 4).map((post, index) => (
-                    <li>
-                      <span class="p-series-no">{String(index + 1).padStart(2, '0')}</span>
-                      <span class="truncate">{post.data.title}</span>
-                    </li>
-                  ))}
-                  {item.count > 4 && <li class="p-series-no">…</li>}
-                </ol>
-              </a>
-            </li>
+              </div>
+
+              <h2 class="s-series-title">
+                <a href={`/blog/series/${item.slug}/`}>{item.name}</a>
+              </h2>
+
+              <ol class="s-series-posts">
+                {item.posts.slice(0, 4).map((post, index) => (
+                  <li>
+                    <a href={postPath(post)}>
+                      <span class="s-series-no" aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span class="s-series-post-title">{post.data.title}</span>
+                      <time class="s-series-date" datetime={post.data.date.toISOString()}>
+                        {formatDate(post.data.date, 'YYYY-MM-DD', site.lang)}
+                      </time>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+
+              {item.count > 4 && (
+                <a class="s-series-more" href={`/blog/series/${item.slug}/`}>
+                  查看全部 {item.count} 篇 <span aria-hidden="true">→</span>
+                </a>
+              )}
+            </section>
           ))}
-        </ul>
+        </div>
       ) : (
         <p class="p-panel-text">还没有系列。</p>
       )

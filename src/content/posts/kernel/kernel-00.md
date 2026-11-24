@@ -2,10 +2,16 @@
 title: "Linux kernel 入门之简易指北"
 date: 2026-11-24T00:00:00
 description: "从编译内核开始成为 Kernel 高手"
-tags:
-  - "Kernel"
 categories:
   - "Kernel"
+tags:
+  - "kernel"
+  - "kernel-build"
+  - "kernel-module"
+  - "busybox"
+  - "qemu"
+series:
+  - "Linux Kernel 入门"
 ---
 
 # 00 Linux kernel 入门
@@ -478,4 +484,3 @@ rmmod hellokernel
 ## 参考来源
 
 - [内核简易食用指北](https://arttnba3.cn/2021/02/21/OS-0X01-LINUX-KERNEL-PART-II/)
-- 
