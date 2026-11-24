@@ -1,7 +1,7 @@
 ---
 title: "Linux kernel 入门之简易指北"
 date: 2026-11-24T00:00:00
-description: ""
+description: "从编译内核开始成为 Kernel 高手"
 tags:
   - "Kernel"
 categories:
