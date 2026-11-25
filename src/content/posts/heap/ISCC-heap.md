@@ -16,7 +16,7 @@ tags:
 
 # ISCC PWN test
 
-> 离最初解出这个附件有 4 个月了，题目虽然出的一坨，但也有其特点与乐趣，今天复现一下，并与 DeepSeek Harness 对比。
+> 离最初解出这个附件有 4 个月了，题目虽然出的一般，但也有其特点与乐趣，今天复现一下，并与 DeepSeek Harness 对比。
 > 
 > [下载附件](https://github.com/sadsnowcat/PwnAttachments/tree/main/ISCC2026/test)
 
