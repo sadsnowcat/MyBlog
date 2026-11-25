@@ -18,7 +18,7 @@ tags:
 
 > 离最初解出这个附件有 4 个月了，题目虽然出的一坨，但也有其特点与乐趣，今天复现一下，并与 DeepSeek Harness 对比。
 > 
-> [下载附件](https://sadsnowcat.com/attachment/isccheap.tar.gz)
+> [下载附件](https://github.com/sadsnowcat/PwnAttachments/tree/main/ISCC2026/test)
 
 ## 逆向分析
 
@@ -449,7 +449,6 @@ __int64 __fastcall main(__int64 a1, char **a2, char **a3)
 ```python
 from pwn import *
 context(arch='amd64', log_level='debug', os='linux')
-context.terminal = ['tmux','new-window']
 
 # io = remote()
 libc = ELF('./libc.so.6')
