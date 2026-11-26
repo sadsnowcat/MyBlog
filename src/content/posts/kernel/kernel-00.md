@@ -1,7 +1,7 @@
 ---
-title: "Linux kernel 入门之简易指北"
+title: "Linux kernel 简易指北"
 date: 2026-11-24T00:00:00
-description: "从编译内核开始成为 Kernel 高手"
+description: "从编译内核开始学习kernel"
 categories:
   - "Kernel"
 tags:
@@ -11,7 +11,7 @@ tags:
   - "busybox"
   - "qemu"
 series:
-  - "Linux Kernel 入门"
+  - "Linux Kernel"
 ---
 
 
