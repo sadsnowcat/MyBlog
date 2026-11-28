@@ -28,7 +28,7 @@ series:
 需要下载一些编译所需的依赖，以及 qemu，我们将通过 qemu 虚拟机来运行内核
 
 ```bash
-sudo apt install git fakeroot build-essential ncurses-dev xz-utils qemu flex libncurses5-dev libssl-dev bc bison libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libelf-dev
+sudo apt install git fakeroot build-essential ncurses-dev xz-utils qemu-system flex libncurses5-dev libssl-dev bc bison libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libelf-dev
 ```
 
 ## 1. 编译内核镜像
