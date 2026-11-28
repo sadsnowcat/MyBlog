@@ -176,8 +176,8 @@
 
     /* 布局 */
     --content-max-width: 1000px;
-    --sidebar-width: 210px;
-    --toc-width: 250px;
+    --sidebar-width: 240px;
+    --toc-width: 224px;
     --navbar-height: 70px;
     --navbar-width: 1200px;
     /* 具体色值由 config.ts 注入，这里只是兜底和透明度 */

@@ -102,6 +102,8 @@ export interface SiteConfig {
     contentMaxWidthWide: string;
     /** 侧栏宽度，对应 global.sidebar_width */
     sidebarWidth: string;
+    /** 文章页右侧目录宽度 */
+    tocWidth: string;
     /** 右下角阅读进度环，对应 global.scroll_progress.percentage */
     scrollProgress: boolean;
   };
@@ -214,8 +216,10 @@ export const site: SiteConfig = {
 
   layout: {
     contentMaxWidth: '1000px',
-    contentMaxWidthWide: '1440px',
-    sidebarWidth: '300px',
+    // 文章页/首页把容器放宽到 1600px，配合更窄的侧栏，正文能多出一截
+    contentMaxWidthWide: '1600px',
+    sidebarWidth: '240px',
+    tocWidth: '224px',
     scrollProgress: true,
   },
 
